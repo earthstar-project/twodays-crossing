@@ -4,7 +4,9 @@ import {
   useCurrentAuthor,
   useCurrentWorkspace,
   useDocument,
+  useDocuments,
   usePaths,
+
 } from "react-earthstar";
 import { Document } from "earthstar";
 
@@ -12,13 +14,70 @@ export default function TwoDays() {
   const [currentWorkspace] = useCurrentWorkspace();
 
   return currentWorkspace ? (
-    <div>
-      <MessagePoster workspace={currentWorkspace} />
+    <div> 
       <MessageList workspace={currentWorkspace} />
+      <MessagePoster workspace={currentWorkspace} />
+      <h2>{"Twodays Crossing"}</h2>
+      <p>{"Welcome, wanderer. Rest by the road and watch the world pass by."}</p>
+      <p>{"Your actions — as well of those of whom you see here — will fade away after 48 hours."}</p>
     </div>
   ) : (
     <div>{"Select a workspace"}</div>
   );
+}
+
+function PastMessages({workspace}: {workspace: string}) {
+  const [currentAuthor] = useCurrentAuthor();
+  const pastDocs = useDocuments(workspace, {contentIsEmpty: true, pathPrefix: "/twodays-v1.0/"});
+  const livingDocs = useDocuments(workspace, {contentIsEmpty: false, pathPrefix: "/twodays-v1.0/"})
+
+
+  
+  const getPastMessage = () => {
+    const pastOtherAuthorCount = new Set(pastDocs.map((doc) => doc.author).filter((author) => author !== currentAuthor?.address)).entries.length;
+    
+    if (pastOtherAuthorCount > 0 && pastOtherAuthorCount < 2) {
+      return "Despite the silence, you get the feeling you're not alone."
+    }
+    
+    if (pastOtherAuthorCount > 2) {
+      return "Looking around, you see hints of past life: objects have been moved, the still-warm embers of an extinguished camp-fire."
+    }
+    
+    if (pastOtherAuthorCount > 5) {
+      return "You notice the signs of a life that must have passed through here: wagon tracks; a jumble of footprints, the discarded remains of a meal."
+    }
+    
+    if (pastOtherAuthorCount > 10) {
+      return "It seems like many people met here once, whether by chance or trade."
+    }
+    
+    return "Eerily, the place seems untouched since you were last here."
+  }
+  
+  const getLivingMessage = () => {
+    const livingOtherAuthorCount = new Set(livingDocs.map((doc) => doc.author).filter((author) => author !== currentAuthor?.address)).entries.length;
+    
+    if (livingOtherAuthorCount > 0 && livingOtherAuthorCount < 1) {
+     return "Although you feel relief at seeing someone else here, you treat your unlikely companion with a degree of wariness." 
+    }
+    
+    if (livingOtherAuthorCount > 2) {
+      return "Someone thought to make a small fire here, which you gather around in turn."
+    }
+    
+    if (livingOtherAuthorCount > 5) {
+      return "You hear the soft chatter of others as you approach the crossing."
+    }
+    
+    if (livingOtherAuthorCount > 10) {
+      return "You cast a glance at the body of tents set up at the side of the path, and the shadows of life that play against their sides."
+    }
+    
+    return "Although it doesn't make sense, you feel as though you're the first living soul to set foot here."
+  }
+  
+  return <div><em>{livingDocs.length > 0 ? getLivingMessage(): getPastMessage()}</em><hr/></div> 
 }
 
 function MessageList({ workspace }: { workspace: string }) {
@@ -26,11 +85,10 @@ function MessageList({ workspace }: { workspace: string }) {
     pathPrefix: "/twodays-v1.0/",
   });
 
-  const reversed = [...paths].reverse();
-
   return (
     <ul>
-      {reversed.map((path) => (
+      <PastMessages workspace={workspace}/>
+      {paths.map((path) => (
         <Message key={path} workspace={workspace} path={path} />
       ))}
     </ul>
@@ -72,6 +130,8 @@ function ActionisedMessage({
   );
 }
 
+const START_FADING_MINUTES = 360
+
 function Message({ workspace, path }: { workspace: string; path: string }) {
   const [doc] = useDocument(workspace, path);
 
@@ -80,8 +140,14 @@ function Message({ workspace, path }: { workspace: string; path: string }) {
   if (!doc || doc.timestamp < twoDaysAgo) {
     return null;
   }
+  
+  const expiryTimestamp = doc.deleteAfter || doc.timestamp + (24 * 60 * 60 * 1000 * 2 * 1000)
+  
+  const minutesFromExpiring = ((expiryTimestamp / 1000) - Date.now()) / 1000 / 60;
+  
+  const messageOpacity = minutesFromExpiring > START_FADING_MINUTES ? 1 : Math.max(0.2, minutesFromExpiring / START_FADING_MINUTES)
 
-  return <ActionisedMessage workspace={workspace} messageDoc={doc} />;
+  return <div style={{opacity: messageOpacity }}><ActionisedMessage workspace={workspace} messageDoc={doc} /></div>;
 }
 
 function MessagePoster({ workspace }: { workspace: string }) {
