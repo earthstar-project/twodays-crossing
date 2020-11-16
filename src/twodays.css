@@ -1,0 +1,86 @@
+:root {
+  --main-colour: #b77b7d;
+  --char-a-colour: #6bb56c;
+  --char-b-colour: #7d93d2;
+  --char-c-colour: #d7865d;
+}
+
+body {
+  font-family: "Georgia";
+}
+
+#twodays-app {
+  margin: auto;
+  max-width: 30em;
+  padding: 8px;
+}
+
+#panel {
+  border: 3px solid var(--main-colour);
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+#preamble {
+  padding: 8px 0 0 0;
+}
+
+#preamble em {
+  color: var(--main-colour);
+  display: block;
+  padding: 0 8px;
+}
+
+#preamble hr {
+  border: 1px solid var(--main-colour);
+  margin: 8px 0 2px 0;
+}
+
+#author-messages {
+  height: 36ex;
+  overflow: auto;
+  padding: 8px;
+}
+
+#author-action,
+#author-speech {
+  margin: 0 0 0.5em 0;
+}
+
+.author-a {
+  color: var(--char-a-colour);
+}
+
+.author-b {
+  color: var(--char-b-colour);
+}
+
+.author-c {
+  color: var(--char-c-colour);
+}
+
+#posting-input {
+  display: flex;
+}
+
+#posting-input input {
+  flex: 1 0 auto;
+  margin: 0;
+  border: none;
+  border-top: 3px solid var(--main-colour);
+  padding: 8px;
+}
+
+#posting-input button {
+  flex: 0 1 auto;
+  margin: 0;
+  background: var(--main-colour);
+  border: none;
+  color: white;
+  font-weight: bold;
+  font-size: 1em;
+  font-family: "Georgia";
+  padding: 8px;
+}

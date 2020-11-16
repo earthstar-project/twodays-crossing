@@ -16,8 +16,6 @@ import {
   Document,
 } from "earthstar";
 import "react-earthstar/styles/layout.css";
-import "react-earthstar/styles/warp.css";
-
 import TwoDays from "./TwoDays";
 
 import { useLocalStorage, writeStorage } from "@rehooks/local-storage";
