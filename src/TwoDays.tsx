@@ -8,6 +8,7 @@ import {
   usePaths,
 } from "react-earthstar";
 import { Document, detChoice } from "earthstar";
+import TitleImage from './crossing.png';
 import "./twodays.css";
 
 export default function TwoDays() {
@@ -16,23 +17,24 @@ export default function TwoDays() {
   return currentWorkspace ? (
     <div id={"twodays-app"}>
       <header>
-        <h2>{"Twodays Crossing"}</h2>
-        <p>
-          {"Welcome, wanderer. Rest by the road and watch the world pass by."}
-        </p>
-        <p>
-          {
-            "Your actions — as well of those of whom you see here — will fade away after 48 hours."
-          }
-        </p>
+        <img src={TitleImage} alt={"Twodays Crossing - an illustration of a wooded clearing with a small stone platform in its centre"}/>
+        <aside><p>
+        {"Welcome, wanderer. Rest by the road and watch the world pass by."}
+      </p>
+      <p>
+        {
+          "Your actions — as well of those of whom you see here — will fade away after 48 hours."
+        }
+      </p></aside>
       </header>
       <section id={"panel"}>
         <MessageList workspace={currentWorkspace} />
         <MessagePoster workspace={currentWorkspace} />
       </section>
+      
     </div>
   ) : (
-    <div>{"Select a workspace"}</div>
+    <div>{"Select a workspace!"}</div>
   );
 }
 
@@ -80,11 +82,11 @@ function PastMessages({ workspace }: { workspace: string }) {
         .filter((author) => author !== currentAuthor?.address)
     ).entries.length;
 
-    if (livingOtherAuthorCount > 0 && livingOtherAuthorCount < 1) {
+    if (livingOtherAuthorCount > 0 && livingOtherAuthorCount < 2) {
       return "Although you feel relief at seeing someone else here, you treat your unlikely companion with a degree of wariness.";
     }
 
-    if (livingOtherAuthorCount > 2) {
+    if (livingOtherAuthorCount > 1) {
       return "Someone thought to make a small fire here, which you gather around in turn.";
     }
 

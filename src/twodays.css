@@ -1,5 +1,8 @@
+/* App styling */
+
 :root {
-  --main-colour: #b77b7d;
+  --main-colour: #131313;
+  --other-colour: #ffffff;
   --char-a-colour: #6bb56c;
   --char-b-colour: #7d93d2;
   --char-c-colour: #d7865d;
@@ -7,12 +10,31 @@
 
 body {
   font-family: "Georgia";
+  background-image: url('./bg.png');
+  background-size: cover;
+  background-position: center;
 }
 
 #twodays-app {
   margin: auto;
   max-width: 30em;
   padding: 8px;
+}
+
+header {
+  margin: 1.5em 0;
+  display: flex;
+  align-items: center;
+}
+
+header img {
+  width: 179.5px;
+  margin: auto;
+  display: block;
+}
+
+header aside {
+  padding: 0 11px 0 22px
 }
 
 #panel {
@@ -83,4 +105,86 @@ body {
   font-size: 1em;
   font-family: "Georgia";
   padding: 8px;
+}
+
+/* Earthbar styling */ 
+
+[data-react-earthstar-earthbar] {
+  max-width: 30em;
+  margin: auto;
+  padding: 11px;
+  border-bottom: 3px solid var(--main-colour);
+  position: relative;
+}
+
+[data-react-earthstar-earthbar] h2 {
+  margin: .3em 0 .5em 0;
+}
+
+[data-react-earthstar-earthbar] a {
+  color: var(--char-b-colour)
+}
+
+[data-react-earthstar-earthbar-tabs] {
+  align-items: baseline
+}
+
+[data-react-earthstar-earthbar-tab-label] {
+  font-family: Georgia;
+  font-size: 14px;
+  font-weight: bold;
+  color: var(--main-colour);
+  border: none;
+  background: none;
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  margin: 0 1px;
+  display: inline-block;
+}
+
+[data-react-earthstar-earthbar-panel][role=tabpanel] {
+  position: absolute;
+  margin-top: 8px;
+  border: 3px solid var(--main-colour);
+  background: var(--main-colour);
+  color: var(--other-colour);
+  padding: 8px;
+  border-radius: 10px;
+  left: 0;
+  right: 0;
+  box-shadow: 2px 2px 10px 5px rgba(0, 0, 0, 0.2)
+}
+
+[data-react-earthstar-button] {
+  font-family: Georgia;
+  font-size: 14px;
+  padding: 6px;
+  background: var(--char-b-colour);
+  color: var(--other-colour);
+  font-weight: bold;
+  border-radius: 10px;
+  border: none;
+}
+
+[data-react-earthstar-input] {
+  font-family: Georgia;
+  font-size: 14px;
+  background: var(--main-colour);
+  color: var(--other-colour);
+  border: 1px solid var(--other-colour);
+  padding: 4px;
+}
+
+[data-react-earthstar-details] {
+  margin: 1em 0
+}
+
+[data-react-earthstar-summary] {
+  font-size: 1.2em;
+  margin: 0 0 .5em 0;
+}
+
+#earthbar-display-name {
+  font-size: 0.8em;
+  align-self: baseline
 }

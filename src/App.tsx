@@ -8,6 +8,10 @@ import {
   useCurrentAuthor,
   useCurrentWorkspace,
   useSubscribeToStorages,
+  WorkspaceTab,
+  AuthorTab,
+  Spacer,
+  useDocument,
 } from "react-earthstar";
 import {
   AuthorKeypair,
@@ -65,7 +69,12 @@ function App() {
       initCurrentAuthor={currentAuthorInStorage}
       initCurrentWorkspace={currentWorkspaceInStorage}
     >
-      <Earthbar />
+      <Earthbar>
+        <WorkspaceTab/>
+        <Spacer/>
+        <AuthorTab/>
+        <DisplayName/>
+      </Earthbar>
       <TwoDays />
       <Persistor />
     </EarthstarPeer>
@@ -73,6 +82,22 @@ function App() {
 }
 
 export default App;
+
+function DisplayName() {
+  const [currentWorkspace] = useCurrentWorkspace();
+  const [currentAuthor] = useCurrentAuthor();
+  
+  const [displayNameDoc] = useDocument(
+    currentWorkspace || '+fake.a123',
+    `/about/~${currentAuthor?.address}/displayName.txt`
+  );
+  
+  if (!currentWorkspace || !currentAuthor || !displayNameDoc?.content) {
+    return null;
+  }
+  
+  return <span id={'earthbar-display-name'}>{`(${displayNameDoc.content})`}</span>
+}
 
 function Persistor() {
   const [storages] = useStorages();
