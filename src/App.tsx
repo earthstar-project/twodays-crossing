@@ -70,10 +70,10 @@ function App() {
       initCurrentWorkspace={currentWorkspaceInStorage}
     >
       <Earthbar>
-        <WorkspaceTab/>
-        <Spacer/>
-        <AuthorTab/>
-        <DisplayName/>
+        <WorkspaceTab />
+        <Spacer />
+        <AuthorTab />
+        <DisplayName />
       </Earthbar>
       <TwoDays />
       <Persistor />
@@ -86,17 +86,19 @@ export default App;
 function DisplayName() {
   const [currentWorkspace] = useCurrentWorkspace();
   const [currentAuthor] = useCurrentAuthor();
-  
+
   const [displayNameDoc] = useDocument(
-    currentWorkspace || '+fake.a123',
+    currentWorkspace || "+fake.a123",
     `/about/~${currentAuthor?.address}/displayName.txt`
   );
-  
+
   if (!currentWorkspace || !currentAuthor || !displayNameDoc?.content) {
     return null;
   }
-  
-  return <span id={'earthbar-display-name'}>{`(${displayNameDoc.content})`}</span>
+
+  return (
+    <span id={"earthbar-display-name"}>{`(${displayNameDoc.content})`}</span>
+  );
 }
 
 function Persistor() {

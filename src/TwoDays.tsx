@@ -5,36 +5,58 @@ import {
   useCurrentWorkspace,
   useDocument,
   useDocuments,
-  usePaths,
 } from "react-earthstar";
 import { Document, detChoice } from "earthstar";
-import TitleImage from './crossing.png';
+import TitleImage from "./crossing.png";
 import "./twodays.css";
 
 export default function TwoDays() {
   const [currentWorkspace] = useCurrentWorkspace();
 
-  return currentWorkspace ? (
+  return (
     <div id={"twodays-app"}>
-      <header>
-        <img src={TitleImage} alt={"Twodays Crossing - an illustration of a wooded clearing with a small stone platform in its centre"}/>
-        <aside><p>
-        {"Welcome, wanderer. Rest by the road and watch the world pass by."}
-      </p>
-      <p>
-        {
-          "Your actions — as well of those of whom you see here — will fade away after 48 hours."
-        }
-      </p></aside>
-      </header>
-      <section id={"panel"}>
-        <MessageList workspace={currentWorkspace} />
-        <MessagePoster workspace={currentWorkspace} />
-      </section>
-      
+      {currentWorkspace ? (
+        <>
+          <header>
+            <img
+              src={TitleImage}
+              alt={
+                "Twodays Crossing - an illustration of a wooded clearing with a small stone platform in its centre"
+              }
+            />
+            <aside>
+              <p>
+                {
+                  "Welcome, wanderer. Rest by the road and watch the world pass by."
+                }
+              </p>
+              <p>
+                {
+                  "Your actions — as well of those of whom you see here — will fade away after 48 hours."
+                }
+              </p>
+            </aside>
+          </header>
+          <section id={"panel"}>
+            <MessageList workspace={currentWorkspace} />
+            <MessagePoster workspace={currentWorkspace} />
+          </section>
+        </>
+      ) : (
+        <div>
+          <p>
+            {
+              "To enter Twodays Crossing, you must first join and select a workspace."
+            }
+          </p>
+          <p>
+            {
+              "If you don't know any yet, find a friend who can give you an invitation code."
+            }
+          </p>
+        </div>
+      )}
     </div>
-  ) : (
-    <div>{"Select a workspace!"}</div>
   );
 }
 
@@ -125,9 +147,9 @@ function MessageList({ workspace }: { workspace: string }) {
       messagesRef.current.scrollTop = messagesRef.current.scrollHeight;
     }
   }, [lastDocId]);
-  
+
   // 'Good enough' sorting
-  docs.sort((aDoc, bDoc) => aDoc.timestamp < bDoc.timestamp ? -1 : 1)
+  docs.sort((aDoc, bDoc) => (aDoc.timestamp < bDoc.timestamp ? -1 : 1));
 
   return (
     <>
