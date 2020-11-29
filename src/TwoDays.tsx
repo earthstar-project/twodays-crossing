@@ -112,11 +112,11 @@ function PastMessages({ workspace }: { workspace: string }) {
 function MessageList({ workspace }: { workspace: string }) {
   const messagesRef = React.useRef<HTMLDivElement | null>(null);
 
-  const paths = usePaths(workspace, {
+  const docs = useDocuments(workspace, {
     pathPrefix: "/twodays-v1.0/",
   });
 
-  const [lastDoc] = useDocument(workspace, paths[paths.length - 1]);
+  const lastDoc = docs[docs.length - 1];
 
   const lastDocId = lastDoc?.contentHash ?? "none";
 
@@ -125,13 +125,16 @@ function MessageList({ workspace }: { workspace: string }) {
       messagesRef.current.scrollTop = messagesRef.current.scrollHeight;
     }
   }, [lastDocId]);
+  
+  // 'Good enough' sorting
+  docs.sort((aDoc, bDoc) => aDoc.timestamp < bDoc.timestamp ? -1 : 1)
 
   return (
     <>
       <PastMessages workspace={workspace} />
       <div ref={messagesRef} id={"author-messages"}>
-        {paths.map((path) => (
-          <Message key={path} workspace={workspace} path={path} />
+        {docs.map((doc) => (
+          <Message key={doc.path} workspace={workspace} doc={doc} />
         ))}
       </div>
     </>
@@ -185,9 +188,7 @@ function ActionisedMessage({
 
 const START_FADING_MINUTES = 360;
 
-function Message({ workspace, path }: { workspace: string; path: string }) {
-  const [doc] = useDocument(workspace, path);
-
+function Message({ workspace, doc }: { workspace: string; doc: Document }) {
   const twoDaysAgo = Date.now() * 1000 - 24 * 60 * 60 * 1000 * 2 * 1000;
 
   if (!doc || doc.timestamp < twoDaysAgo) {
