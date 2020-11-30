@@ -78,20 +78,20 @@ function PastMessages({ workspace }: { workspace: string }) {
         .filter((author) => author !== currentAuthor?.address)
     ).size;
 
-    if (pastOtherAuthorCount > 0 && pastOtherAuthorCount < 2) {
-      return "Despite the silence, you get the feeling you're not alone.";
-    }
-
-    if (pastOtherAuthorCount > 2) {
-      return "Looking around, you see hints of past life: objects have been moved, the still-warm embers of an extinguished camp-fire.";
+    if (pastOtherAuthorCount > 10) {
+      return "It seems like many people met here once, whether by chance or trade.";
     }
 
     if (pastOtherAuthorCount > 5) {
       return "You notice the signs of a life that must have passed through here: wagon tracks; a jumble of footprints, the discarded remains of a meal.";
     }
 
-    if (pastOtherAuthorCount > 10) {
-      return "It seems like many people met here once, whether by chance or trade.";
+    if (pastOtherAuthorCount > 2) {
+      return "Looking around, you see hints of past life: objects have been moved, the still-warm embers of an extinguished camp-fire.";
+    }
+
+    if (pastOtherAuthorCount > 0 && pastOtherAuthorCount < 2) {
+      return "Despite the silence, you get the feeling you're not alone.";
     }
 
     return "Eerily, the place seems untouched since you were last here.";
@@ -104,20 +104,20 @@ function PastMessages({ workspace }: { workspace: string }) {
         .filter((author) => author !== currentAuthor?.address)
     ).size;
 
-    if (livingOtherAuthorCount > 0 && livingOtherAuthorCount < 2) {
-      return "Although you feel relief at seeing someone else here, you treat your unlikely companion with a degree of wariness.";
-    }
-
-    if (livingOtherAuthorCount > 1) {
-      return "Someone thought to make a small fire here, which you gather around in turn.";
+    if (livingOtherAuthorCount > 10) {
+      return "You cast a glance at the body of tents set up at the side of the path, and the shadows of life that play against their sides.";
     }
 
     if (livingOtherAuthorCount > 5) {
       return "You hear the soft chatter of others as you approach the crossing.";
     }
 
-    if (livingOtherAuthorCount > 10) {
-      return "You cast a glance at the body of tents set up at the side of the path, and the shadows of life that play against their sides.";
+    if (livingOtherAuthorCount > 1) {
+      return "Someone thought to make a small fire here, which you gather around in turn.";
+    }
+
+    if (livingOtherAuthorCount > 0 && livingOtherAuthorCount < 2) {
+      return "Although you feel relief at seeing someone else here, you treat your unlikely companion with a degree of wariness.";
     }
 
     return "Although it doesn't make sense, you feel as though you're the first living soul to set foot here.";

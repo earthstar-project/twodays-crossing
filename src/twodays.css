@@ -64,6 +64,7 @@ header aside {
   height: 46ex;
   overflow: auto;
   padding: 8px;
+  background: var(--other-colour);
 }
 
 #author-action,
