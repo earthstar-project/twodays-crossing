@@ -1,18 +1,24 @@
 /* App styling */
 
 :root {
-  --main-colour: #131313;
-  --other-colour: #ffffff;
-  --char-a-colour: #6bb56c;
-  --char-b-colour: #7d93d2;
-  --char-c-colour: #d7865d;
+  --main-colour: #664249;
+  --other-colour: #f7f0ed;
+  --char-a-colour: #770000;
+  --char-b-colour: #c87425;
+  --char-c-colour: #138a14;
+  --char-d-colour: #114c8a;
+  --char-e-colour: #4d00aa;
+  --char-f-colour: #880060;
 }
 
 body {
   font-family: "Georgia";
+  background-color: var(--other-colour);
   background-image: url("./bg.png");
   background-size: cover;
   background-position: center;
+
+  scrollbar-color: var(--main-colour) var(--other-colour);
 }
 
 #twodays-app {
@@ -38,6 +44,7 @@ header aside {
 }
 
 #panel {
+  background-color: var(--other-colour);
   border: 3px solid var(--main-colour);
   border-radius: 10px;
   display: flex;
@@ -83,6 +90,18 @@ header aside {
   color: var(--char-c-colour);
 }
 
+.author-d {
+  color: var(--char-d-colour);
+}
+
+.author-e {
+  color: var(--char-e-colour);
+}
+
+.author-f {
+  color: var(--char-f-colour);
+}
+
 #posting-input {
   display: flex;
 }
@@ -92,6 +111,7 @@ header aside {
   margin: 0;
   border: none;
   border-top: 3px solid var(--main-colour);
+  background-color: var(--other-colour);
   padding: 8px;
 }
 
