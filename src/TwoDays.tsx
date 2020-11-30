@@ -174,6 +174,9 @@ function ActionisedMessage({
     "author-a",
     "author-b",
     "author-c",
+    "author-d",
+    "author-e",
+    "author-f",
   ]);
 
   const isAction = messageDoc.content.startsWith("/me ");
