@@ -10,7 +10,7 @@
 
 body {
   font-family: "Georgia";
-  background-image: url('./bg.png');
+  background-image: url("./bg.png");
   background-size: cover;
   background-position: center;
 }
@@ -34,7 +34,7 @@ header img {
 }
 
 header aside {
-  padding: 0 11px 0 22px
+  padding: 0 11px 0 22px;
 }
 
 #panel {
@@ -61,7 +61,7 @@ header aside {
 }
 
 #author-messages {
-  height: 36ex;
+  height: 46ex;
   overflow: auto;
   padding: 8px;
 }
@@ -107,7 +107,7 @@ header aside {
   padding: 8px;
 }
 
-/* Earthbar styling */ 
+/* Earthbar styling */
 
 [data-react-earthstar-earthbar] {
   max-width: 30em;
@@ -118,15 +118,15 @@ header aside {
 }
 
 [data-react-earthstar-earthbar] h2 {
-  margin: .3em 0 .5em 0;
+  margin: 0.3em 0 0.5em 0;
 }
 
 [data-react-earthstar-earthbar] a {
-  color: var(--char-b-colour)
+  color: var(--char-b-colour);
 }
 
 [data-react-earthstar-earthbar-tabs] {
-  align-items: baseline
+  align-items: baseline;
 }
 
 [data-react-earthstar-earthbar-tab-label] {
@@ -142,7 +142,7 @@ header aside {
   display: inline-block;
 }
 
-[data-react-earthstar-earthbar-panel][role=tabpanel] {
+[data-react-earthstar-earthbar-panel][role="tabpanel"] {
   position: absolute;
   margin-top: 8px;
   border: 3px solid var(--main-colour);
@@ -152,7 +152,7 @@ header aside {
   border-radius: 10px;
   left: 0;
   right: 0;
-  box-shadow: 2px 2px 10px 5px rgba(0, 0, 0, 0.2)
+  box-shadow: 2px 2px 10px 5px rgba(0, 0, 0, 0.2);
 }
 
 [data-react-earthstar-button] {
@@ -176,15 +176,15 @@ header aside {
 }
 
 [data-react-earthstar-details] {
-  margin: 1em 0
+  margin: 1em 0;
 }
 
 [data-react-earthstar-summary] {
   font-size: 1.2em;
-  margin: 0 0 .5em 0;
+  margin: 0 0 0.5em 0;
 }
 
 #earthbar-display-name {
   font-size: 0.8em;
-  align-self: baseline
+  align-self: baseline;
 }

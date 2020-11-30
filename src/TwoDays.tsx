@@ -76,7 +76,7 @@ function PastMessages({ workspace }: { workspace: string }) {
       pastDocs
         .map((doc) => doc.author)
         .filter((author) => author !== currentAuthor?.address)
-    ).entries.length;
+    ).size;
 
     if (pastOtherAuthorCount > 0 && pastOtherAuthorCount < 2) {
       return "Despite the silence, you get the feeling you're not alone.";
@@ -102,7 +102,7 @@ function PastMessages({ workspace }: { workspace: string }) {
       livingDocs
         .map((doc) => doc.author)
         .filter((author) => author !== currentAuthor?.address)
-    ).entries.length;
+    ).size;
 
     if (livingOtherAuthorCount > 0 && livingOtherAuthorCount < 2) {
       return "Although you feel relief at seeing someone else here, you treat your unlikely companion with a degree of wariness.";
