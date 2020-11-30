@@ -186,7 +186,7 @@ function ActionisedMessage({
   );
 
   const name = (
-    <span className={className}>
+    <span className={className} title={messageDoc.author}>
       {displayNameDoc ? (
         displayNameDoc.content
       ) : (
