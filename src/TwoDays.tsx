@@ -42,8 +42,13 @@ export default function TwoDays() {
             <MessagePoster workspace={currentWorkspace} />
           </section>
           <section id="help">
-            <div><b>/me</b> looks at the sky.</div>
-            <div><b>/describe</b> The sun sets.</div>
+            <details>
+              <summary>Commands</summary>
+              <ul>
+                <li><b>/me</b> looks at the sky. &rarr; <b>MyName</b> looks at the sky.</li>
+                <li><b>/describe</b> The sun sets. &rarr; <i>The sun sets.</i></li>
+              </ul>
+            </details>
           </section>
         </>
       ) : (
@@ -183,8 +188,8 @@ function ActionisedMessage({
     "author-f",
   ]);
 
-  const isAuthorAction = messageDoc.content.startsWith("/me ");
-  const isDescribeAction = messageDoc.content.startsWith("/describe ");
+  const isAuthorAction = messageDoc.content.startsWith("/me");
+  const isDescribeAction = messageDoc.content.startsWith("/describe");
   const [displayNameDoc] = useDocument(
     workspace,
     `/about/~${messageDoc.author}/displayName.txt`
@@ -203,13 +208,13 @@ function ActionisedMessage({
   if (isAuthorAction) {
     return <div className="author-action">
       <em>
-        {name} {messageDoc.content.replace("/me ", "")}
+        {name}{messageDoc.content.replace("/me", "")}
       </em>
     </div>
   } else if (isDescribeAction) {
     return <div className="describe-action">
       <em title={messageDoc.author}>
-        {messageDoc.content.replace("/describe ", "")}
+        {messageDoc.content.replace("/describe", "")}
       </em>
     </div>
   } else {

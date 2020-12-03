@@ -19,6 +19,8 @@ body {
   background-position: center;
 
   scrollbar-color: var(--main-colour) var(--other-colour);
+
+  min-height: 95vh;
 }
 
 #twodays-app {
@@ -54,9 +56,15 @@ header aside {
 
 #help {
   padding-top: 16px;
+  padding-left: 8px;
   color: var(--main-colour);
-  opacity: 0.5;
+}
+
+#help summary {
   text-align: center;
+}
+#help ul {
+  list-style-type: none;
 }
 
 #preamble {
