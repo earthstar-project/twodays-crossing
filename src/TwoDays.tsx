@@ -241,7 +241,7 @@ function MessagePoster({ workspace }: { workspace: string }) {
   const [messageValue, setMessageValue] = React.useState("");
   const [currentAuthor] = useCurrentAuthor();
 
-  const path = `/twodays-v1.0/${currentAuthor?.address}/${Date.now()}.txt!`;
+  const path = `/twodays-v1.0/~${currentAuthor?.address}/${Date.now()}.txt!`;
 
   const [, setDoc] = useDocument(workspace, path);
 
