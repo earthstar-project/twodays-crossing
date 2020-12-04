@@ -19,6 +19,8 @@ body {
   background-position: center;
 
   scrollbar-color: var(--main-colour) var(--other-colour);
+
+  min-height: 95vh;
 }
 
 #twodays-app {
@@ -52,6 +54,19 @@ header aside {
   overflow: hidden;
 }
 
+#help {
+  padding-top: 16px;
+  padding-left: 8px;
+  color: var(--main-colour);
+}
+
+#help summary {
+  text-align: center;
+}
+#help ul {
+  list-style-type: none;
+}
+
 #preamble {
   padding: 8px 0 0 0;
 }
@@ -75,9 +90,15 @@ header aside {
   resize: vertical;
 }
 
-#author-action,
-#author-speech {
+.author-action,
+.describe-action,
+.author-speech {
   margin: 0 0 0.5em 0;
+}
+
+.describe-action {
+  text-align: center;
+  color: var(--main-colour);
 }
 
 .author-a {
@@ -115,6 +136,11 @@ header aside {
   border-top: 3px solid var(--main-colour);
   background-color: var(--other-colour);
   padding: 8px;
+  font-size: inherit;
+  font-family: inherit;
+}
+#posting-input input::placeholder {
+  color: var(--main-colour);
 }
 
 #posting-input button {

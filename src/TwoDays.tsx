@@ -41,6 +41,15 @@ export default function TwoDays() {
             <MessageList workspace={currentWorkspace} />
             <MessagePoster workspace={currentWorkspace} />
           </section>
+          <section id="help">
+            <details>
+              <summary>Commands</summary>
+              <ul>
+                <li><b>/me</b> looks at the sky. &rarr; <b>MyName</b> looks at the sky.</li>
+                <li><b>/describe</b> The sun sets. &rarr; <i>The sun sets.</i></li>
+              </ul>
+            </details>
+          </section>
         </>
       ) : (
         <div>
@@ -179,7 +188,8 @@ function ActionisedMessage({
     "author-f",
   ]);
 
-  const isAction = messageDoc.content.startsWith("/me ");
+  const isAuthorAction = messageDoc.content.startsWith("/me");
+  const isDescribeAction = messageDoc.content.startsWith("/describe");
   const [displayNameDoc] = useDocument(
     workspace,
     `/about/~${messageDoc.author}/displayName.txt`
@@ -195,20 +205,26 @@ function ActionisedMessage({
     </span>
   );
 
-  return isAction ? (
-    <div id={"author-action"}>
+  if (isAuthorAction) {
+    return <div className="author-action">
       <em>
-        {name} {messageDoc.content.replace("/me", "")}
+        {name}{messageDoc.content.replace("/me", "")}
       </em>
     </div>
-  ) : (
-    <div id={"author-speech"}>
+  } else if (isDescribeAction) {
+    return <div className="describe-action">
+      <em title={messageDoc.author}>
+        {messageDoc.content.replace("/describe", "")}
+      </em>
+    </div>
+  } else {
+    return <div className="author-speech">
       {name}
       {" says “"}
       {messageDoc.content}
       {"”"}
     </div>
-  );
+  }
 }
 
 const START_FADING_MINUTES = 360;
@@ -266,9 +282,7 @@ function MessagePoster({ workspace }: { workspace: string }) {
       }}
     >
       <input
-        placeholder={
-          "Speak out at the crossing! Prefix with /me to perform an action"
-        }
+        placeholder="Speak out at the crossing!"
         value={messageValue}
         onChange={(e) => setMessageValue(e.target.value)}
       />
