@@ -145,20 +145,20 @@ function MessageList({ workspace }: { workspace: string }) {
 
   const docs = useDocuments(workspace, {
     pathPrefix: "/twodays-v1.0/",
+    contentIsEmpty: false,
   });
 
-  const lastDoc = docs[docs.length - 1];
+  // sort oldest first
+  docs.sort((aDoc, bDoc) => (aDoc.timestamp < bDoc.timestamp ? -1 : 1));
 
-  const lastDocId = lastDoc?.contentHash ?? "none";
+  const lastDoc = docs[docs.length - 1];
+  const lastDocId = lastDoc?.path ?? "none";
 
   React.useEffect(() => {
     if (messagesRef.current) {
       messagesRef.current.scrollTop = messagesRef.current.scrollHeight;
     }
   }, [lastDocId]);
-
-  // 'Good enough' sorting
-  docs.sort((aDoc, bDoc) => (aDoc.timestamp < bDoc.timestamp ? -1 : 1));
 
   return (
     <>
@@ -273,9 +273,11 @@ function MessagePoster({ workspace }: { workspace: string }) {
       onSubmit={(e) => {
         e.preventDefault();
 
+        if (messageValue.trim().length === 0) { return; }
+
         setDoc(
-          messageValue,
-          Date.now() * 1000 + 24 * 60 * 60 * 1000 * 2 * 1000
+          messageValue.trim(),
+          (Date.now() * 1000) + 2 * 24 * 60 * 60 * 1000 * 1000
         );
 
         setMessageValue("");
