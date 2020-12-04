@@ -38,8 +38,8 @@ export default function TwoDays() {
             </aside>
           </header>
           <section id={"panel"}>
-            <MessageList workspace={currentWorkspace} />
-            <MessagePoster workspace={currentWorkspace} />
+            <MessageList />
+            <MessagePoster />
           </section>
           <section id="help">
             <details>
@@ -145,7 +145,7 @@ function PastMessages() {
   );
 }
 
-function MessageList({ workspace }: { workspace: string }) {
+function MessageList() {
   const messagesRef = React.useRef<HTMLDivElement | null>(null);
 
   const docs = useDocuments({
@@ -170,7 +170,7 @@ function MessageList({ workspace }: { workspace: string }) {
       <PastMessages />
       <div ref={messagesRef} id={"author-messages"}>
         {docs.map((doc) => (
-          <Message key={doc.path} workspace={workspace} doc={doc} />
+          <Message key={doc.path} doc={doc} />
         ))}
       </div>
     </>
@@ -234,7 +234,7 @@ function ActionisedMessage({ messageDoc }: { messageDoc: Document }) {
 
 const START_FADING_MINUTES = 360;
 
-function Message({ workspace, doc }: { workspace: string; doc: Document }) {
+function Message({ doc }: { doc: Document }) {
   const twoDaysAgo = Date.now() * 1000 - 24 * 60 * 60 * 1000 * 2 * 1000;
 
   if (!doc || doc.timestamp < twoDaysAgo) {
@@ -258,13 +258,13 @@ function Message({ workspace, doc }: { workspace: string; doc: Document }) {
   );
 }
 
-function MessagePoster({ workspace }: { workspace: string }) {
+function MessagePoster() {
   const [messageValue, setMessageValue] = React.useState("");
   const [currentAuthor] = useCurrentAuthor();
 
   const path = `/twodays-v1.0/~${currentAuthor?.address}/${Date.now()}.txt!`;
 
-  const [, setDoc] = useDocument(workspace, path);
+  const [, setDoc] = useDocument(path);
 
   if (!currentAuthor) {
     return <div>{"You are a ghost... you cannot speak! Sign in."}</div>;
@@ -282,10 +282,12 @@ function MessagePoster({ workspace }: { workspace: string }) {
           return;
         }
 
-        setDoc(
+        const res = setDoc(
           messageValue.trim(),
           Date.now() * 1000 + 2 * 24 * 60 * 60 * 1000 * 1000
         );
+
+        console.log(res);
 
         setMessageValue("");
       }}
