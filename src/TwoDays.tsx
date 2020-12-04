@@ -9,9 +9,11 @@ import {
 import { Document, detChoice } from "earthstar";
 import TitleImage from "./crossing.png";
 import "./twodays.css";
+import { useHourOf } from './seasonal-hours';
 
 export default function TwoDays() {
   const [currentWorkspace] = useCurrentWorkspace();
+  let [hourOf] = useHourOf();
 
   return (
     <div id={"twodays-app"}>
@@ -34,6 +36,9 @@ export default function TwoDays() {
                 {
                   "Your actions — as well of those of whom you see here — will fade away after 48 hours."
                 }
+              </p>
+              <p className="seasonal-hour">
+                It is the {hourOf.longName}.
               </p>
             </aside>
           </header>
