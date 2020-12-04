@@ -88,7 +88,6 @@ function DisplayName() {
   const [currentAuthor] = useCurrentAuthor();
 
   const [displayNameDoc] = useDocument(
-    currentWorkspace || "+fake.a123",
     `/about/~${currentAuthor?.address}/displayName.txt`
   );
 

@@ -177,13 +177,7 @@ function MessageList({ workspace }: { workspace: string }) {
   );
 }
 
-function ActionisedMessage({
-  workspace,
-  messageDoc,
-}: {
-  workspace: string;
-  messageDoc: Document;
-}) {
+function ActionisedMessage({ messageDoc }: { messageDoc: Document }) {
   const className = detChoice(messageDoc.author, [
     "author-a",
     "author-b",
@@ -196,7 +190,6 @@ function ActionisedMessage({
   const isAuthorAction = messageDoc.content.startsWith("/me");
   const isDescribeAction = messageDoc.content.startsWith("/describe");
   const [displayNameDoc] = useDocument(
-    workspace,
     `/about/~${messageDoc.author}/displayName.txt`
   );
 
@@ -260,7 +253,7 @@ function Message({ workspace, doc }: { workspace: string; doc: Document }) {
 
   return (
     <div style={{ opacity: messageOpacity }}>
-      <ActionisedMessage workspace={workspace} messageDoc={doc} />
+      <ActionisedMessage messageDoc={doc} />
     </div>
   );
 }
