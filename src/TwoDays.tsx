@@ -45,8 +45,13 @@ export default function TwoDays() {
             <details>
               <summary>Commands</summary>
               <ul>
-                <li><b>/me</b> looks at the sky. &rarr; <b>MyName</b> looks at the sky.</li>
-                <li><b>/describe</b> The sun sets. &rarr; <i>The sun sets.</i></li>
+                <li>
+                  <b>/me</b> looks at the sky. &rarr; <b>MyName</b> looks at the
+                  sky.
+                </li>
+                <li>
+                  <b>/describe</b> The sun sets. &rarr; <i>The sun sets.</i>
+                </li>
               </ul>
             </details>
           </section>
@@ -69,13 +74,13 @@ export default function TwoDays() {
   );
 }
 
-function PastMessages({ workspace }: { workspace: string }) {
+function PastMessages() {
   const [currentAuthor] = useCurrentAuthor();
-  const pastDocs = useDocuments(workspace, {
+  const pastDocs = useDocuments({
     contentIsEmpty: true,
     pathPrefix: "/twodays-v1.0/",
   });
-  const livingDocs = useDocuments(workspace, {
+  const livingDocs = useDocuments({
     contentIsEmpty: false,
     pathPrefix: "/twodays-v1.0/",
   });
@@ -143,7 +148,7 @@ function PastMessages({ workspace }: { workspace: string }) {
 function MessageList({ workspace }: { workspace: string }) {
   const messagesRef = React.useRef<HTMLDivElement | null>(null);
 
-  const docs = useDocuments(workspace, {
+  const docs = useDocuments({
     pathPrefix: "/twodays-v1.0/",
     contentIsEmpty: false,
   });
@@ -162,7 +167,7 @@ function MessageList({ workspace }: { workspace: string }) {
 
   return (
     <>
-      <PastMessages workspace={workspace} />
+      <PastMessages />
       <div ref={messagesRef} id={"author-messages"}>
         {docs.map((doc) => (
           <Message key={doc.path} workspace={workspace} doc={doc} />
@@ -206,24 +211,31 @@ function ActionisedMessage({
   );
 
   if (isAuthorAction) {
-    return <div className="author-action">
-      <em>
-        {name}{messageDoc.content.replace("/me", "")}
-      </em>
-    </div>
+    return (
+      <div className="author-action">
+        <em>
+          {name}
+          {messageDoc.content.replace("/me", "")}
+        </em>
+      </div>
+    );
   } else if (isDescribeAction) {
-    return <div className="describe-action">
-      <em title={messageDoc.author}>
-        {messageDoc.content.replace("/describe", "")}
-      </em>
-    </div>
+    return (
+      <div className="describe-action">
+        <em title={messageDoc.author}>
+          {messageDoc.content.replace("/describe", "")}
+        </em>
+      </div>
+    );
   } else {
-    return <div className="author-speech">
-      {name}
-      {" says “"}
-      {messageDoc.content}
-      {"”"}
-    </div>
+    return (
+      <div className="author-speech">
+        {name}
+        {" says “"}
+        {messageDoc.content}
+        {"”"}
+      </div>
+    );
   }
 }
 
@@ -273,11 +285,13 @@ function MessagePoster({ workspace }: { workspace: string }) {
       onSubmit={(e) => {
         e.preventDefault();
 
-        if (messageValue.trim().length === 0) { return; }
+        if (messageValue.trim().length === 0) {
+          return;
+        }
 
         setDoc(
           messageValue.trim(),
-          (Date.now() * 1000) + 2 * 24 * 60 * 60 * 1000 * 1000
+          Date.now() * 1000 + 2 * 24 * 60 * 60 * 1000 * 1000
         );
 
         setMessageValue("");
