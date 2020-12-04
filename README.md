@@ -1,3 +1,21 @@
+# Twodays Crossing
+
+A chat app built on [Earthstar](https://github.com/earthstar-project/earthstar).
+
+## Visit it
+
+https://twodays-crossing.vercel.app/
+
+https://twodays-crossing.netlify.app/
+
+[![Netlify Status](https://api.netlify.com/api/v1/badges/6b47a0d7-5b52-442b-a961-1dec94ea551a/deploy-status)](https://app.netlify.com/sites/twodays-crossing/deploys)
+
+## Deploy it yourself
+
+With Netlify, use these Build Settings:
+* Build command: `yarn build`
+* Publish directory: `build/`
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
