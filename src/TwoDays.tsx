@@ -51,6 +51,9 @@ export default function TwoDays() {
               <summary>Commands</summary>
               <ul>
                 <li>
+                  Hello world. &rarr; <b>MyName</b> says "Hello world."
+                </li>
+                <li>
                   <b>/me</b> looks at the sky. &rarr; <b>MyName</b> looks at the
                   sky.
                 </li>
