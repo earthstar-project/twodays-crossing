@@ -54,8 +54,8 @@ export default function TwoDays() {
                   Hello world. &rarr; <b>MyName</b> says "Hello world."
                 </li>
                 <li>
-                  <b>/me</b> looks at the sky. &rarr; <b>MyName</b> looks at the
-                  sky.
+                  <b>/me</b> looks at the sky. &rarr; <i><b>MyName</b> looks at the
+                  sky.</i>
                 </li>
                 <li>
                   <b>/describe</b> The sun sets. &rarr; <i>The sun sets.</i>
