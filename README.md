@@ -4,11 +4,11 @@ A chat app built on [Earthstar](https://github.com/earthstar-project/earthstar).
 
 ## Visit it
 
-https://twodays-crossing.vercel.app/
-
 https://twodays-crossing.netlify.app/
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/6b47a0d7-5b52-442b-a961-1dec94ea551a/deploy-status)](https://app.netlify.com/sites/twodays-crossing/deploys)
+
+https://twodays-crossing.vercel.app/ (currently running an older version)
 
 ## Deploy it yourself
 
