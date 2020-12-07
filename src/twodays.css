@@ -9,6 +9,28 @@
   --char-d-colour: #114c8a;
   --char-e-colour: #4d00aa;
   --char-f-colour: #880060;
+  --transition-props: color, background, border-color;
+  --transition-time: 3s;
+}
+
+body.winter {
+  --main-colour: #1e1a42;
+  --other-colour: #deebff;
+}
+
+body.spring {
+  --main-colour: #2a562a;
+  --other-colour: #ecfff4;
+}
+
+body.summer {
+  --main-colour: #293b52;
+  --other-colour: #fffdcc;
+}
+
+body.fall {
+  --main-colour: #664249;
+  --other-colour: #f7f0ed;
 }
 
 body {
@@ -21,6 +43,9 @@ body {
   scrollbar-color: var(--main-colour) var(--other-colour);
 
   min-height: 95vh;
+
+  transition-property: var(--transition-props);
+  transition-duration: var(--transition-time);
 }
 
 #twodays-app {
@@ -46,7 +71,10 @@ header aside {
 }
 
 .seasonal-hour {
-  color: var(--char-a-colour);
+  color: var(--main-colour);
+
+  transition-property: var(--transition-props);
+  transition-duration: var(--transition-time);
 }
 
 #panel {
@@ -56,12 +84,18 @@ header aside {
   display: flex;
   flex-direction: column;
   overflow: hidden;
+
+  transition-property: var(--transition-props);
+  transition-duration: var(--transition-time);
 }
 
 #help {
   padding-top: 16px;
   padding-left: 8px;
   color: var(--main-colour);
+
+  transition-property: var(--transition-props);
+  transition-duration: var(--transition-time);
 }
 
 #help summary {
@@ -79,11 +113,17 @@ header aside {
   color: var(--main-colour);
   display: block;
   padding: 0 8px;
+
+  transition-property: var(--transition-props);
+  transition-duration: var(--transition-time);
 }
 
 #preamble hr {
   border: 1px solid var(--main-colour);
   margin: 8px 0 2px 0;
+
+  transition-property: var(--transition-props);
+  transition-duration: var(--transition-time);
 }
 
 #author-messages {
@@ -92,6 +132,9 @@ header aside {
   padding: 8px;
   background: var(--other-colour);
   resize: vertical;
+
+  transition-property: var(--transition-props);
+  transition-duration: var(--transition-time);
 }
 
 .author-action,
@@ -103,6 +146,9 @@ header aside {
 .describe-action {
   text-align: center;
   color: var(--main-colour);
+
+  transition-property: var(--transition-props);
+  transition-duration: var(--transition-time);
 }
 
 .author-a {
@@ -142,9 +188,15 @@ header aside {
   padding: 8px;
   font-size: inherit;
   font-family: inherit;
+
+  transition-property: var(--transition-props);
+  transition-duration: var(--transition-time);
 }
 #posting-input input::placeholder {
   color: var(--main-colour);
+
+  transition-property: var(--transition-props);
+  transition-duration: var(--transition-time);
 }
 
 #posting-input button {
@@ -157,6 +209,9 @@ header aside {
   font-size: 1em;
   font-family: "Georgia";
   padding: 8px;
+
+  transition-property: var(--transition-props);
+  transition-duration: var(--transition-time);
 }
 
 /* Earthbar styling */
@@ -167,6 +222,9 @@ header aside {
   padding: 11px;
   border-bottom: 3px solid var(--main-colour);
   position: relative;
+
+  transition-property: var(--transition-props);
+  transition-duration: var(--transition-time);
 }
 
 [data-react-earthstar-earthbar] h2 {
@@ -175,6 +233,9 @@ header aside {
 
 [data-react-earthstar-earthbar] a {
   color: var(--char-b-colour);
+
+  transition-property: var(--transition-props);
+  transition-duration: var(--transition-time);
 }
 
 [data-react-earthstar-earthbar-tabs] {
@@ -192,6 +253,9 @@ header aside {
   text-decoration-thickness: 2px;
   margin: 0 1px;
   display: inline-block;
+
+  transition-property: var(--transition-props);
+  transition-duration: var(--transition-time);
 }
 
 [data-react-earthstar-earthbar-panel][role="tabpanel"] {
@@ -205,18 +269,24 @@ header aside {
   left: 0;
   right: 0;
   box-shadow: 2px 2px 10px 5px rgba(0, 0, 0, 0.2);
-  z-index: 10
+  z-index: 10;
+
+  transition-property: var(--transition-props);
+  transition-duration: var(--transition-time);
 }
 
 [data-react-earthstar-button] {
   font-family: Georgia;
   font-size: 14px;
   padding: 6px;
-  background: var(--char-b-colour);
-  color: var(--other-colour);
+  background: var(--other-colour);
+  color: var(--main-colour);
   font-weight: bold;
   border-radius: 10px;
   border: none;
+
+  transition-property: var(--transition-props);
+  transition-duration: var(--transition-time);
 }
 
 [data-react-earthstar-input] {
@@ -226,6 +296,9 @@ header aside {
   color: var(--other-colour);
   border: 1px solid var(--other-colour);
   padding: 4px;
+
+  transition-property: var(--transition-props);
+  transition-duration: var(--transition-time);
 }
 
 [data-react-earthstar-details] {
