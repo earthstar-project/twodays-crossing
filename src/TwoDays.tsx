@@ -15,6 +15,8 @@ export default function TwoDays() {
   const [currentWorkspace] = useCurrentWorkspace();
   let [hourOf] = useHourOf();
 
+  document.body.className = hourOf.season; //todo: useEffect hook?
+
   return (
     <div id={"twodays-app"}>
       {currentWorkspace ? (
@@ -38,7 +40,7 @@ export default function TwoDays() {
                 }
               </p>
               <p className="seasonal-hour">
-                It is the {hourOf.longName}.
+                It is the {hourOf.longName} in {hourOf.season}.
               </p>
             </aside>
           </header>

@@ -11,6 +11,26 @@
   --char-f-colour: #880060;
 }
 
+body.winter {
+  --main-colour: #1e1a42;
+  --other-colour: #deebff;
+}
+
+body.spring {
+  --main-colour: #2a562a;
+  --other-colour: #ecfff4;
+}
+
+body.summer {
+  --main-colour: #293b52;
+  --other-colour: #fffdcc;
+}
+
+body.fall {
+  --main-colour: #664249;
+  --other-colour: #f7f0ed;
+}
+
 body {
   font-family: "Georgia";
   background-color: var(--other-colour);
@@ -46,7 +66,7 @@ header aside {
 }
 
 .seasonal-hour {
-  color: var(--char-a-colour);
+  color: var(--main-colour);
 }
 
 #panel {
@@ -212,8 +232,8 @@ header aside {
   font-family: Georgia;
   font-size: 14px;
   padding: 6px;
-  background: var(--char-b-colour);
-  color: var(--other-colour);
+  background: var(--other-colour);
+  color: var(--main-colour);
   font-weight: bold;
   border-radius: 10px;
   border: none;
