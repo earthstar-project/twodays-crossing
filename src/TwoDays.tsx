@@ -197,6 +197,7 @@ function ActionisedMessage({ messageDoc }: { messageDoc: Document }) {
 
   const isAuthorAction = messageDoc.content.startsWith("/me");
   const isDescribeAction = messageDoc.content.startsWith("/describe");
+  const isNickAction = messageDoc.content.startsWith("/nick");
   const [displayNameDoc] = useDocument(
     `/about/~${messageDoc.author}/displayName.txt`
   );
@@ -225,6 +226,17 @@ function ActionisedMessage({ messageDoc }: { messageDoc: Document }) {
       <div className="describe-action">
         <em title={messageDoc.author}>
           {messageDoc.content.replace("/describe", "")}
+        </em>
+      </div>
+    );
+  } else if (isNickAction) {
+    return (
+      <div className="author-action">
+        <em>
+          <AuthorLabel address={messageDoc.author} />
+          {" changed their name to "}
+          {name}
+          {"."}
         </em>
       </div>
     );
@@ -273,12 +285,31 @@ function MessagePoster() {
   const path = `/twodays-v1.0/~${currentAuthor?.address}/${Date.now()}.txt!`;
 
   const [, setDoc] = useDocument(path);
+  const [, setNameDoc] = useDocument(`/about/~${currentAuthor?.address}/displayName.txt`);
+
+  const isAction = messageValue.startsWith("/me");
+  const isDescribe = messageValue.startsWith("/describe");
+  const isNick = messageValue.startsWith("/nick");
+
+  const getButtonLabel = () => {
+    if (isAction) {
+      return "Do it";
+    }
+
+    if (isDescribe) {
+      return "Make it so";
+    }
+
+    if (isNick) {
+      return "Rename";
+    }
+
+    return "Speak";
+  };
 
   if (!currentAuthor) {
     return <div>{"You are a ghost... you cannot speak! Sign in."}</div>;
   }
-
-  const isAction = messageValue.startsWith("/me ");
 
   return (
     <form
@@ -288,6 +319,13 @@ function MessagePoster() {
 
         if (messageValue.trim().length === 0) {
           return;
+        }
+
+        if (isNick) {
+          const newNick = messageValue.replace("/nick", "").trim();
+          if (newNick !== "") {
+            setNameDoc(newNick);
+          }
         }
 
         const res = setDoc(
@@ -305,7 +343,7 @@ function MessagePoster() {
         value={messageValue}
         onChange={(e) => setMessageValue(e.target.value)}
       />
-      <button type={"submit"}>{isAction ? "Do it" : "Speak"}</button>
+      <button type={"submit"}>{getButtonLabel()}</button>
     </form>
   );
 }
