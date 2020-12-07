@@ -60,6 +60,9 @@ export default function TwoDays() {
                 <li>
                   <b>/describe</b> The sun sets. &rarr; <i>The sun sets.</i>
                 </li>
+                <li>
+                  <b>/nick</b> Puppy &rarr; <i><b>@name</b> changed their name to <b>Puppy</b>.</i>
+                </li>
               </ul>
             </details>
           </section>
