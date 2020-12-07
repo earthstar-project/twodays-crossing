@@ -7,6 +7,8 @@ import {
   useDocuments,
 } from "react-earthstar";
 import { Document, detChoice } from "earthstar";
+import { useWindupString } from 'windups';
+
 import TitleImage from "./crossing.png";
 import "./twodays.css";
 import { useHourOf } from './seasonal-hours';
@@ -203,9 +205,21 @@ function ActionisedMessage({ messageDoc }: { messageDoc: Document }) {
   const isAuthorAction = messageDoc.content.startsWith("/me");
   const isDescribeAction = messageDoc.content.startsWith("/describe");
   const isNickAction = messageDoc.content.startsWith("/nick");
+
+  const masticatedMessage = (() => {
+    if (isAuthorAction) {
+      return messageDoc.content.replace("/me", "");
+    }
+    if (isDescribeAction) {
+      return messageDoc.content.replace("/describe", "");
+    }
+    return messageDoc.content;
+  })();
+  
   const [displayNameDoc] = useDocument(
     `/about/~${messageDoc.author}/displayName.txt`
   );
+  const [woundUpMessage, ] = useWindupString(masticatedMessage);
 
   const name = (
     <span className={className} title={messageDoc.author}>
@@ -222,7 +236,7 @@ function ActionisedMessage({ messageDoc }: { messageDoc: Document }) {
       <div className="author-action">
         <em>
           {name}
-          {messageDoc.content.replace("/me", "")}
+          {woundUpMessage}
         </em>
       </div>
     );
@@ -230,7 +244,7 @@ function ActionisedMessage({ messageDoc }: { messageDoc: Document }) {
     return (
       <div className="describe-action">
         <em title={messageDoc.author}>
-          {messageDoc.content.replace("/describe", "")}
+          {woundUpMessage}
         </em>
       </div>
     );
@@ -250,7 +264,7 @@ function ActionisedMessage({ messageDoc }: { messageDoc: Document }) {
       <div className="author-speech">
         {name}
         {" says “"}
-        {messageDoc.content}
+        {woundUpMessage}
         {"”"}
       </div>
     );
