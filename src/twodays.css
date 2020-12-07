@@ -205,6 +205,7 @@ header aside {
   left: 0;
   right: 0;
   box-shadow: 2px 2px 10px 5px rgba(0, 0, 0, 0.2);
+  z-index: 10
 }
 
 [data-react-earthstar-button] {
