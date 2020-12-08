@@ -205,17 +205,17 @@ function ActionisedMessage({ messageDoc }: { messageDoc: Document }) {
   const isAuthorAction = messageDoc.content.startsWith("/me");
   const isDescribeAction = messageDoc.content.startsWith("/describe");
   const isNickAction = messageDoc.content.startsWith("/nick");
-  // const olderThanFiveMin = 
+  const isOlderThanFiveMin = (Date.now() - (messageDoc.timestamp / 1000)) < (5 * 60 * 1000);
 
   const masticatedMessage = (() => {
     if (isAuthorAction) {
-      return messageDoc.content.replace("/me", "").trim();
+      return messageDoc.content.replace("/me", "");
     }
     if (isDescribeAction) {
-      return messageDoc.content.replace("/describe", "").trim();
+      return messageDoc.content.replace("/describe", "");
     }
-    return messageDoc.content.trim();
-  })();
+    return messageDoc.content;
+  })(); //clearly, creating this function and running it every time this runs is NOT the way to do it 
   
   const [displayNameDoc] = useDocument(
     `/about/~${messageDoc.author}/displayName.txt`
@@ -223,13 +223,12 @@ function ActionisedMessage({ messageDoc }: { messageDoc: Document }) {
   const [woundUpMessage, ] = useWindupString(masticatedMessage);
 
   const displayMessage = (() => {
-    if ((Date.now() - (messageDoc.timestamp / 1000)) < (5 * 60 * 1000)) {
-      console.log(messageDoc.timestamp + " IS THE TIMMMMEEEEEE");
+    if (isOlderThanFiveMin) {
+      console.log(messageDoc.timestamp + " IS IN THE RECENT PAAAAST");
       return woundUpMessage; 
     }
     console.log("OLDER THAN 5 MIN");
     return masticatedMessage; 
-
   })();
 
   const name = (
