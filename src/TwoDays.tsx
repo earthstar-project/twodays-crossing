@@ -205,21 +205,32 @@ function ActionisedMessage({ messageDoc }: { messageDoc: Document }) {
   const isAuthorAction = messageDoc.content.startsWith("/me");
   const isDescribeAction = messageDoc.content.startsWith("/describe");
   const isNickAction = messageDoc.content.startsWith("/nick");
+  // const olderThanFiveMin = 
 
   const masticatedMessage = (() => {
     if (isAuthorAction) {
-      return messageDoc.content.replace("/me", "");
+      return messageDoc.content.replace("/me", "").trim();
     }
     if (isDescribeAction) {
-      return messageDoc.content.replace("/describe", "");
+      return messageDoc.content.replace("/describe", "").trim();
     }
-    return messageDoc.content;
+    return messageDoc.content.trim();
   })();
   
   const [displayNameDoc] = useDocument(
     `/about/~${messageDoc.author}/displayName.txt`
   );
   const [woundUpMessage, ] = useWindupString(masticatedMessage);
+
+  const displayMessage = (() => {
+    if ((Date.now() - (messageDoc.timestamp / 1000)) < (5 * 60 * 1000)) {
+      console.log(messageDoc.timestamp + " IS THE TIMMMMEEEEEE");
+      return woundUpMessage; 
+    }
+    console.log("OLDER THAN 5 MIN");
+    return masticatedMessage; 
+
+  })();
 
   const name = (
     <span className={className} title={messageDoc.author}>
@@ -236,7 +247,7 @@ function ActionisedMessage({ messageDoc }: { messageDoc: Document }) {
       <div className="author-action">
         <em>
           {name}
-          {woundUpMessage}
+          {displayMessage}
         </em>
       </div>
     );
@@ -244,7 +255,7 @@ function ActionisedMessage({ messageDoc }: { messageDoc: Document }) {
     return (
       <div className="describe-action">
         <em title={messageDoc.author}>
-          {woundUpMessage}
+          {displayMessage}
         </em>
       </div>
     );
@@ -264,7 +275,7 @@ function ActionisedMessage({ messageDoc }: { messageDoc: Document }) {
       <div className="author-speech">
         {name}
         {" says “"}
-        {woundUpMessage}
+        {displayMessage}
         {"”"}
       </div>
     );
