@@ -9,7 +9,7 @@
   --char-d-colour: #114c8a;
   --char-e-colour: #4d00aa;
   --char-f-colour: #880060;
-  --transition-props: color, background, border-color;
+  --transition-props: color, background-color, border-color;
   --transition-time: 3s;
 }
 
@@ -279,6 +279,8 @@ header aside {
   font-family: Georgia;
   font-size: 14px;
   padding: 6px;
+  margin-right: 6px;
+  margin-bottom: 6px;
   background: var(--other-colour);
   color: var(--main-colour);
   font-weight: bold;
@@ -289,16 +291,32 @@ header aside {
   transition-duration: var(--transition-time);
 }
 
-[data-react-earthstar-input] {
+[data-react-earthstar-input], [data-reach-combobox-input] {
   font-family: Georgia;
   font-size: 14px;
-  background: var(--main-colour);
+  background: none;
   color: var(--other-colour);
   border: 1px solid var(--other-colour);
   padding: 4px;
+  margin-right: 6px;
+  margin-bottom: 6px;
 
   transition-property: var(--transition-props);
   transition-duration: var(--transition-time);
+}
+[data-react-earthstar-pubeditor-newpub-input] {
+  border: none !important;
+  background: none !important;
+  padding: 0px !important;
+}
+[data-react-earthstar-pubeditor-newpub-input] input {
+  width: calc(100% - 10px);
+  background: none;
+  height: 20px;
+  margin-bottom: -6px;
+}
+[data-reach-combobox-popover] {
+  z-index: 15;
 }
 
 [data-react-earthstar-details] {
