@@ -216,119 +216,23 @@ header aside {
 
 /* Earthbar styling */
 
-[data-react-earthstar-earthbar] {
+[data-re-earthbar] {
   max-width: 30em;
   margin: auto;
-  padding: 11px;
-  border-bottom: 3px solid var(--main-colour);
+  padding: 11px 0;
   position: relative;
-
   transition-property: var(--transition-props);
   transition-duration: var(--transition-time);
 }
 
-[data-react-earthstar-earthbar] h2 {
-  margin: 0.3em 0 0.5em 0;
-}
-
-[data-react-earthstar-earthbar] a {
-  color: var(--char-b-colour);
-
-  transition-property: var(--transition-props);
-  transition-duration: var(--transition-time);
-}
-
-[data-react-earthstar-earthbar-tabs] {
-  align-items: baseline;
-}
-
-[data-react-earthstar-earthbar-tab-label] {
-  font-family: Georgia;
-  font-size: 14px;
-  font-weight: bold;
-  color: var(--main-colour);
-  border: none;
-  background: none;
-  text-decoration: underline;
-  text-decoration-thickness: 2px;
-  margin: 0 1px;
-  display: inline-block;
-
-  transition-property: var(--transition-props);
-  transition-duration: var(--transition-time);
-}
-
-[data-react-earthstar-earthbar-panel][role="tabpanel"] {
+[data-re-earthbar-panel][role="tabpanel"] {
   position: absolute;
-  margin-top: 8px;
-  border: 3px solid var(--main-colour);
-  background: var(--main-colour);
-  color: var(--other-colour);
-  padding: 8px;
-  border-radius: 10px;
-  left: 0;
-  right: 0;
-  box-shadow: 2px 2px 10px 5px rgba(0, 0, 0, 0.2);
   z-index: 10;
-
   transition-property: var(--transition-props);
   transition-duration: var(--transition-time);
-}
-
-[data-react-earthstar-button] {
-  font-family: Georgia;
-  font-size: 14px;
-  padding: 6px;
-  margin-right: 6px;
-  margin-bottom: 6px;
-  background: var(--other-colour);
-  color: var(--main-colour);
-  font-weight: bold;
-  border-radius: 10px;
-  border: none;
-
-  transition-property: var(--transition-props);
-  transition-duration: var(--transition-time);
-}
-
-[data-react-earthstar-input], [data-reach-combobox-input] {
-  font-family: Georgia;
-  font-size: 14px;
-  background: none;
-  color: var(--other-colour);
-  border: 1px solid var(--other-colour);
-  padding: 4px;
-  margin-right: 6px;
-  margin-bottom: 6px;
-
-  transition-property: var(--transition-props);
-  transition-duration: var(--transition-time);
-}
-[data-react-earthstar-pubeditor-newpub-input] {
-  border: none !important;
-  background: none !important;
-  padding: 0px !important;
-}
-[data-react-earthstar-pubeditor-newpub-input] input {
-  width: calc(100% - 10px);
-  background: none;
-  height: 20px;
-  margin-bottom: -6px;
-}
-[data-reach-combobox-popover] {
-  z-index: 15;
-}
-
-[data-react-earthstar-details] {
-  margin: 1em 0;
-}
-
-[data-react-earthstar-summary] {
-  font-size: 1.2em;
-  margin: 0 0 0.5em 0;
 }
 
 #earthbar-display-name {
   font-size: 0.8em;
-  align-self: baseline;
+  align-self: center;
 }

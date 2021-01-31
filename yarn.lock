@@ -9859,10 +9859,10 @@ react-dom@^17.0.1:
     object-assign "^4.1.1"
     scheduler "^0.20.1"
 
-react-earthstar@^1.0.0-preview.15:
-  version "1.0.0-preview.15"
-  resolved "https://registry.yarnpkg.com/react-earthstar/-/react-earthstar-1.0.0-preview.15.tgz#0b938b360b0d3ee5f40db9ca24215cc846432721"
-  integrity sha512-ec0fcLdp3CKb4WaQ+MFy+NMdN6G22UDY0D79JdwhOciwI+nxduG1FaE5rGBsENEeXi+v6q7v7N5j/7sOdms3xQ==
+react-earthstar@^1.0.0-preview.16:
+  version "1.0.0-preview.16"
+  resolved "https://registry.yarnpkg.com/react-earthstar/-/react-earthstar-1.0.0-preview.16.tgz#f6025b81dc02c8c8c8e8d7db55628872c1a69a8f"
+  integrity sha512-R6XQCe37ciCNXJsj/bQBKuxLydvqRSnZqx/gReE0zYHKlP5+scI05J9s9Ifip7JyPegnOjiF/6oEBNsmfkEYdw==
   dependencies:
     "@reach/alert" "^0.11.2"
     "@reach/auto-id" "^0.11.2"

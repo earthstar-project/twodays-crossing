@@ -20,6 +20,7 @@ import {
   Document,
 } from "earthstar";
 import "react-earthstar/styles/layout.css";
+import "react-earthstar/styles/junior.css";
 import TwoDays from "./TwoDays";
 
 import { useLocalStorage, writeStorage } from "@rehooks/local-storage";
@@ -96,7 +97,7 @@ function DisplayName() {
   }
 
   return (
-    <span id={"earthbar-display-name"}>{`(${displayNameDoc.content})`}</span>
+    <div id={"earthbar-display-name"}>{`(${displayNameDoc.content})`}</div>
   );
 }
 

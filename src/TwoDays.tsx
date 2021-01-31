@@ -9,13 +9,11 @@ import {
 import { Document, detChoice } from "earthstar";
 import TitleImage from "./crossing.png";
 import "./twodays.css";
-import { useHourOf } from './seasonal-hours';
+import { useHourOf } from "./seasonal-hours";
 
 export default function TwoDays() {
   const [currentWorkspace] = useCurrentWorkspace();
   let [hourOf] = useHourOf();
-
-  document.body.className = hourOf.season; //todo: useEffect hook?
 
   return (
     <div id={"twodays-app"}>
@@ -39,9 +37,7 @@ export default function TwoDays() {
                   "Your actions — as well of those of whom you see here — will fade away after 48 hours."
                 }
               </p>
-              <p className="seasonal-hour">
-                It is the {hourOf.longName} in {hourOf.season}.
-              </p>
+              <p className="seasonal-hour">It is the {hourOf.longName}.</p>
             </aside>
           </header>
           <section id={"panel"}>
@@ -56,14 +52,13 @@ export default function TwoDays() {
                   Hello world. &rarr; <b>MyName</b> says "Hello world."
                 </li>
                 <li>
-                  <b>/me</b> looks at the sky. &rarr; <i><b>MyName</b> looks at the
-                  sky.</i>
+                  <b>/me</b> looks at the sky. &rarr;{" "}
+                  <i>
+                    <b>MyName</b> looks at the sky.
+                  </i>
                 </li>
                 <li>
                   <b>/describe</b> The sun sets. &rarr; <i>The sun sets.</i>
-                </li>
-                <li>
-                  <b>/nick</b> Puppy &rarr; <i><b>@name</b> changed their name to <b>Puppy</b>.</i>
                 </li>
               </ul>
             </details>
@@ -202,7 +197,6 @@ function ActionisedMessage({ messageDoc }: { messageDoc: Document }) {
 
   const isAuthorAction = messageDoc.content.startsWith("/me");
   const isDescribeAction = messageDoc.content.startsWith("/describe");
-  const isNickAction = messageDoc.content.startsWith("/nick");
   const [displayNameDoc] = useDocument(
     `/about/~${messageDoc.author}/displayName.txt`
   );
@@ -231,17 +225,6 @@ function ActionisedMessage({ messageDoc }: { messageDoc: Document }) {
       <div className="describe-action">
         <em title={messageDoc.author}>
           {messageDoc.content.replace("/describe", "")}
-        </em>
-      </div>
-    );
-  } else if (isNickAction) {
-    return (
-      <div className="author-action">
-        <em>
-          <AuthorLabel address={messageDoc.author} />
-          {" changed their name to "}
-          {name}
-          {"."}
         </em>
       </div>
     );
@@ -290,31 +273,12 @@ function MessagePoster() {
   const path = `/twodays-v1.0/~${currentAuthor?.address}/${Date.now()}.txt!`;
 
   const [, setDoc] = useDocument(path);
-  const [, setNameDoc] = useDocument(`/about/~${currentAuthor?.address}/displayName.txt`);
-
-  const isAction = messageValue.startsWith("/me");
-  const isDescribe = messageValue.startsWith("/describe");
-  const isNick = messageValue.startsWith("/nick");
-
-  const getButtonLabel = () => {
-    if (isAction) {
-      return "Do it";
-    }
-
-    if (isDescribe) {
-      return "Make it so";
-    }
-
-    if (isNick) {
-      return "Rename";
-    }
-
-    return "Speak";
-  };
 
   if (!currentAuthor) {
     return <div>{"You are a ghost... you cannot speak! Sign in."}</div>;
   }
+
+  const isAction = messageValue.startsWith("/me ");
 
   return (
     <form
@@ -324,13 +288,6 @@ function MessagePoster() {
 
         if (messageValue.trim().length === 0) {
           return;
-        }
-
-        if (isNick) {
-          const newNick = messageValue.replace("/nick", "").trim();
-          if (newNick !== "") {
-            setNameDoc(newNick);
-          }
         }
 
         const res = setDoc(
@@ -348,7 +305,7 @@ function MessagePoster() {
         value={messageValue}
         onChange={(e) => setMessageValue(e.target.value)}
       />
-      <button type={"submit"}>{getButtonLabel()}</button>
+      <button type={"submit"}>{isAction ? "Do it" : "Speak"}</button>
     </form>
   );
 }
