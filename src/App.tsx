@@ -3,11 +3,8 @@ import "./App.css";
 import {
   EarthstarPeer,
   Earthbar,
-  useStorages,
-  usePubs,
   useCurrentAuthor,
   useCurrentWorkspace,
-  useSubscribeToStorages,
   WorkspaceTab,
   AuthorTab,
   Spacer,
@@ -15,9 +12,6 @@ import {
   useLocalStorageEarthstarSettings,
   LocalStorageSettingsWriter,
 } from "react-earthstar";
-import {
-  StorageMemory,
-} from "earthstar";
 import "react-earthstar/styles/layout.css";
 import "react-earthstar/styles/junior.css";
 import TwoDays from "./TwoDays";
