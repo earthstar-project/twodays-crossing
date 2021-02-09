@@ -52,6 +52,11 @@ export default function TwoDays() {
                   Hello world. &rarr; <b>MyName</b> says "Hello world."
                 </li>
                 <li>
+                  <b>{"/nick "}</b>
+                  {"My New Name → "}
+                  <i>{"Changes your nickname to My New Name"}</i>
+                </li>
+                <li>
                   <b>/me</b> looks at the sky. &rarr;{" "}
                   <i>
                     <b>MyName</b> looks at the sky.
@@ -159,7 +164,7 @@ function MessageList() {
   const docs = useDocuments({
     pathPrefix: "/twodays-v1.0/",
     contentIsEmpty: false,
-  });
+  }).filter((doc) => !doc.path.endsWith("characterName.txt"));
 
   // sort oldest first
   docs.sort((aDoc, bDoc) => (aDoc.timestamp < bDoc.timestamp ? -1 : 1));
@@ -197,14 +202,16 @@ function ActionisedMessage({ messageDoc }: { messageDoc: Document }) {
 
   const isAuthorAction = messageDoc.content.startsWith("/me");
   const isDescribeAction = messageDoc.content.startsWith("/describe");
-  const [displayNameDoc] = useDocument(
-    `/about/~${messageDoc.author}/displayName.txt`
+  const isNickAction = messageDoc.content.startsWith("/nick ");
+
+  const [characterNameDoc] = useDocument(
+    `/twodays-v1.0/~${messageDoc.author}/characterName.txt`
   );
 
   const name = (
     <span className={className} title={messageDoc.author}>
-      {displayNameDoc ? (
-        displayNameDoc.content
+      {characterNameDoc ? (
+        characterNameDoc.content
       ) : (
         <AuthorLabel address={messageDoc.author} />
       )}
@@ -228,6 +235,8 @@ function ActionisedMessage({ messageDoc }: { messageDoc: Document }) {
         </em>
       </div>
     );
+  } else if (isNickAction) {
+    return null;
   } else {
     return (
       <div className="author-speech">
@@ -274,11 +283,16 @@ function MessagePoster() {
 
   const [, setDoc] = useDocument(path);
 
+  const [, setCharacterNameDoc] = useDocument(
+    `/twodays-v1.0/~${currentAuthor?.address}/characterName.txt`
+  );
+
   if (!currentAuthor) {
     return <div>{"You are a ghost... you cannot speak! Sign in."}</div>;
   }
 
   const isAction = messageValue.startsWith("/me ");
+  const isNickAction = messageValue.startsWith("/nick ");
 
   return (
     <form
@@ -290,12 +304,16 @@ function MessagePoster() {
           return;
         }
 
-        const res = setDoc(
+        if (isNickAction) {
+          const newName = `${messageValue}`.replace("/nick ", "");
+
+          setCharacterNameDoc(newName);
+        }
+
+        setDoc(
           messageValue.trim(),
           Date.now() * 1000 + 2 * 24 * 60 * 60 * 1000 * 1000
         );
-
-        console.log(res);
 
         setMessageValue("");
       }}
