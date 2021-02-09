@@ -17,13 +17,10 @@ import "react-earthstar/styles/junior.css";
 import TwoDays from "./TwoDays";
 
 function App() {
-  
-  const initValues = useLocalStorageEarthstarSettings('twodays')
+  const initValues = useLocalStorageEarthstarSettings("twodays");
 
   return (
-    <EarthstarPeer
-      {...initValues}
-    >
+    <EarthstarPeer {...initValues}>
       <Earthbar>
         <WorkspaceTab />
         <Spacer />
@@ -31,7 +28,7 @@ function App() {
         <DisplayName />
       </Earthbar>
       <TwoDays />
-      <LocalStorageSettingsWriter storageKey={'twodays'}/>
+      <LocalStorageSettingsWriter storageKey={"twodays"} />
     </EarthstarPeer>
   );
 }
@@ -43,7 +40,7 @@ function DisplayName() {
   const [currentAuthor] = useCurrentAuthor();
 
   const [displayNameDoc] = useDocument(
-    `/about/~${currentAuthor?.address}/displayName.txt`
+    `/twodays-v1.0/~${currentAuthor?.address}/characterName.txt`
   );
 
   if (!currentWorkspace || !currentAuthor || !displayNameDoc?.content) {
