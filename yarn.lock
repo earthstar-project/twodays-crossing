@@ -1684,11 +1684,6 @@
   dependencies:
     tslib "^2.0.0"
 
-"@rehooks/local-storage@^2.4.0":
-  version "2.4.0"
-  resolved "https://registry.yarnpkg.com/@rehooks/local-storage/-/local-storage-2.4.0.tgz#fb884b2b657cad5f77aa6ab60bb3532f0e0725d2"
-  integrity sha512-LoXDbEHsuIckVgBsFAv8SuU/M7memjyfWut9Zf36TQXqqCHBRFv8bweg9PymQCa1aWIMjNrZQflFdo55FDlXYg==
-
 "@rollup/plugin-node-resolve@^7.1.1":
   version "7.1.3"
   resolved "https://registry.yarnpkg.com/@rollup/plugin-node-resolve/-/plugin-node-resolve-7.1.3.tgz#80de384edfbd7bfc9101164910f86078151a3eca"
@@ -4645,10 +4640,10 @@ duplexify@^3.4.2, duplexify@^3.6.0:
     readable-stream "^2.0.0"
     stream-shift "^1.0.0"
 
-earthstar@^5.7.4:
-  version "5.7.4"
-  resolved "https://registry.yarnpkg.com/earthstar/-/earthstar-5.7.4.tgz#c986ef545774fd5a6f27a98b8aaaf0de4fa3f42c"
-  integrity sha512-bJvn4Z3RwV0MAPAq4OCpaJrFlpmvL8XctV56kR/j0nhlvt7gPvULJluVW2IBpW/XEdgD3qY/jT7Wh+lonqSaXw==
+earthstar@5.7.6:
+  version "5.7.6"
+  resolved "https://registry.yarnpkg.com/earthstar/-/earthstar-5.7.6.tgz#c837c2c40b2d093a9dea76cc84bae746513b9b13"
+  integrity sha512-JwK4c7ErCZII/epUzgeA/5Ul6G/tifxe2XFhi3kLjAfqM/lavmDsnq8wWb5vh40Pa84OkwzfYFa6+AceHwyjgA==
   dependencies:
     "@types/isomorphic-fetch" "0.0.35"
     bencode "^2.0.1"
@@ -9859,17 +9854,16 @@ react-dom@^17.0.1:
     object-assign "^4.1.1"
     scheduler "^0.20.1"
 
-react-earthstar@^1.0.3:
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/react-earthstar/-/react-earthstar-1.0.3.tgz#10ec2f16c989d6c287da34c743dd893da6a9586e"
-  integrity sha512-64myCo4DVB/fPx7y1db1Sj+n1Vq7UEN4+0iG0uqDVbHuXcSt8RCj21l1NLWkiOMQ5hTeoYgPxPWzqVKIub7swg==
+react-earthstar@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/react-earthstar/-/react-earthstar-1.1.1.tgz#7365b256d198fba5f6c38640467acc11622ee877"
+  integrity sha512-Cvk9Eb2dPefunESzknYvlaFWgNFpnG/f99NBastfYtQquJD6t0jmYnjT1yQBhb2jfgpXArrP0YgJ+A4uu8OI3w==
   dependencies:
     "@reach/alert" "^0.11.2"
     "@reach/auto-id" "^0.11.2"
     "@reach/combobox" "^0.12.1"
     "@reach/descendants" "0.11.2"
     "@reach/utils" "^0.11.2"
-    "@rehooks/local-storage" "^2.4.0"
     use-deep-compare-effect "^1.4.0"
 
 react-error-overlay@^6.0.8:
