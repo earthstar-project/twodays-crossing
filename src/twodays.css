@@ -1,14 +1,14 @@
 /* App styling */
 
 :root {
-  --main-colour: #664249;
-  --other-colour: #f7f0ed;
-  --char-a-colour: #770000;
-  --char-b-colour: #c87425;
-  --char-c-colour: #138a14;
-  --char-d-colour: #114c8a;
-  --char-e-colour: #4d00aa;
-  --char-f-colour: #880060;
+  --main-colour: #ffffff;
+  --other-colour: #424242;
+  --char-a-colour: #c73131;
+  --char-b-colour: #30a320;
+  --char-c-colour: #734824;
+  --char-d-colour: #005d26;
+  --char-e-colour: #7b0016;
+  --char-f-colour: #533a4b;
   --transition-props: color, background-color, border-color;
   --transition-time: 3s;
 }
@@ -34,34 +34,37 @@ body.fall {
 }
 
 body {
-  font-family: "Georgia";
-  background-color: var(--other-colour);
-  background-image: url("./bg.png");
-  background-size: cover;
-  background-position: center;
-
+  font-family: "Comic Sans MS";
+  background-color: blue;
+  background-image: url("./snow3.gif");
+  background-position: top;
+  background-repeat: repeat;
   scrollbar-color: var(--main-colour) var(--other-colour);
-
-  min-height: 95vh;
-
-  transition-property: var(--transition-props);
-  transition-duration: var(--transition-time);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-blend-mode: lighten;
 }
 
 #twodays-app {
   margin: auto;
-  max-width: 30em;
+
   padding: 8px;
 }
 
+#fireplace {
+  max-width: 100%;
+  margin: auto;
+  display: block;
+}
+
 header {
-  margin: 1.5em 0;
-  display: flex;
-  align-items: center;
+  text-align: center;
+  margin-bottom: 0.5rem;
 }
 
 header img {
-  width: 179.5px;
   margin: auto;
   display: block;
 }
@@ -78,15 +81,16 @@ header aside {
 }
 
 #panel {
-  background-color: var(--other-colour);
-  border: 3px solid var(--main-colour);
-  border-radius: 10px;
   display: flex;
   flex-direction: column;
   overflow: hidden;
-
+  max-width: 30em;
+  margin: auto;
   transition-property: var(--transition-props);
   transition-duration: var(--transition-time);
+  border: 2px outset gray;
+  padding: 0.5rem;
+  background: color(srgb 0.778 0.778 0.778);
 }
 
 #help {
@@ -105,36 +109,24 @@ header aside {
   list-style-type: none;
 }
 
-#preamble {
-  padding: 8px 0 0 0;
-}
-
-#preamble em {
-  color: var(--main-colour);
-  display: block;
-  padding: 0 8px;
-
-  transition-property: var(--transition-props);
-  transition-duration: var(--transition-time);
-}
-
-#preamble hr {
-  border: 1px solid var(--main-colour);
-  margin: 8px 0 2px 0;
-
-  transition-property: var(--transition-props);
-  transition-duration: var(--transition-time);
+#log-button {
+  border: 2px outset gray;
+  font-family: "Comic Sans MS";
+  font-size: 1em;
+  margin: 0.5rem 0 0 0;
 }
 
 #author-messages {
-  height: 46ex;
+  max-height: 46ex;
   overflow: auto;
-  padding: 8px;
-  background: var(--other-colour);
   resize: vertical;
-
   transition-property: var(--transition-props);
   transition-duration: var(--transition-time);
+  color: black;
+  background: color(srgb 0.913 0.913 0.913);
+  border: 2px inset gray;
+  padding: 0.25rem;
+  margin: 0.5rem 0;
 }
 
 .author-action,
@@ -146,7 +138,6 @@ header aside {
 .describe-action {
   text-align: center;
   color: var(--main-colour);
-
   transition-property: var(--transition-props);
   transition-duration: var(--transition-time);
 }
@@ -183,56 +174,114 @@ header aside {
   flex: 1 0 auto;
   margin: 0;
   border: none;
-  border-top: 3px solid var(--main-colour);
-  background-color: var(--other-colour);
+  background-color: var(--main-colour);
   padding: 8px;
   font-size: inherit;
   font-family: inherit;
-
+  color: var(--other-colour);
+  border: 2px inset gray;
   transition-property: var(--transition-props);
   transition-duration: var(--transition-time);
 }
 #posting-input input::placeholder {
-  color: var(--main-colour);
-
   transition-property: var(--transition-props);
   transition-duration: var(--transition-time);
 }
 
 #posting-input button {
   flex: 0 1 auto;
-  margin: 0;
-  background: var(--main-colour);
-  border: none;
-  color: white;
+  margin: 0 0 0.125rem 0;
+  background: gray;
+  border: 2px outset gray;
+  color: var(--main-colour);
   font-weight: bold;
   font-size: 1em;
-  font-family: "Georgia";
-  padding: 8px;
-
+  font-family: "Comic Sans MS";
+  padding: 0.5rem;
   transition-property: var(--transition-props);
   transition-duration: var(--transition-time);
 }
 
-/* Earthbar styling */
-
-[data-re-earthbar] {
-  max-width: 30em;
-  margin: auto;
-  padding: 11px 0;
-  position: relative;
-  transition-property: var(--transition-props);
-  transition-duration: var(--transition-time);
+#connection-status {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-areas: "slot";
 }
 
-[data-re-earthbar-panel][role="tabpanel"] {
-  position: absolute;
-  z-index: 10;
-  transition-property: var(--transition-props);
-  transition-duration: var(--transition-time);
+#connection-status details {
+  grid-area: "slot";
 }
 
-#earthbar-display-name {
-  font-size: 0.8em;
-  align-self: center;
+#connection-status label {
+  grid-area: "slot";
+  text-align: right;
+}
+
+details {
+  margin: 0.25rem 0;
+}
+
+details div {
+  font-family: monospace;
+  border: 2px inset gray;
+  padding: 0.25rem;
+  margin: 0.125rem 0 0 0;
+  background: black;
+  color: limegreen;
+}
+
+details div ul {
+  padding: 0 1.25rem;
+  margin: 0;
+}
+
+.highlight-secret {
+  color: color(srgb 0.373 0.373 0.373);
+  background: color(srgb 0.373 0.373 0.373);
+}
+
+.highlight-secret::selection {
+  color: white;
+  background: black;
+}
+
+dl {
+  margin: 0 0 1rem 0;
+}
+
+dd {
+  word-wrap: break-word;
+}
+
+button {
+  font-family: "Comic Sans MS";
+  display: block;
+  font-size: 1em;
+  border: 2px outset grey;
+  appearance: none;
+}
+
+button:active {
+  border: 2px inset grey;
+}
+
+fieldset label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: color(srgb 0.278 0.278 0.278);
+}
+
+fieldset label input {
+  display: block;
+  margin-left: 1rem;
+  font-family: "Comic Sans MS";
+  font-size: 1em;
+  min-width: 20rem;
+}
+
+footer {
+  color: white;
+  text-shadow: 2px 2px 0 black;
+  text-align: center;
+  font-size: 2em;
 }

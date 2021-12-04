@@ -5,155 +5,49 @@ import {
   useCurrentWorkspace,
   useDocument,
   useDocuments,
+  useIsLive,
+  useStorage,
+  useWorkspacePubs,
 } from "react-earthstar";
-import { Document, detChoice } from "earthstar";
-import TitleImage from "./crossing.png";
+import {
+  Document,
+  detChoice,
+  generateAuthorKeypair,
+  isErr,
+  checkAuthorKeypairIsValid,
+} from "earthstar";
 import "./twodays.css";
-import { useHourOf } from "./seasonal-hours";
+import Fireplace0 from "./logs/f0.gif";
+import Fireplace1 from "./logs/f1.gif";
+import Fireplace2 from "./logs/f2.gif";
+import Fireplace3 from "./logs/f3.gif";
 
 export default function TwoDays() {
   const [currentWorkspace] = useCurrentWorkspace();
-  let [hourOf] = useHourOf();
 
   return (
     <div id={"twodays-app"}>
       {currentWorkspace ? (
         <>
-          <header>
-            <img
-              src={TitleImage}
-              alt={
-                "Twodays Crossing - an illustration of a wooded clearing with a small stone platform in its centre"
-              }
-            />
-            <aside>
-              <p>
-                {
-                  "Welcome, wanderer. Rest by the road and watch the world pass by."
-                }
-              </p>
-              <p>
-                {
-                  "Your actions — as well of those of whom you see here — will fade away after 48 hours."
-                }
-              </p>
-              <p className="seasonal-hour">It is the {hourOf.longName}.</p>
-            </aside>
-          </header>
           <section id={"panel"}>
+            <header>DEF (Decentralised Ephemeral Fireplace) v1.0</header>
+            <Fireplace />
+            <ThrowLogOnFireButton />
             <MessageList />
             <MessagePoster />
+
+            <IdentityPanel />
+            <Commands />
+            <ConnectionStatus />
           </section>
-          <section id="help">
-            <details>
-              <summary>Commands</summary>
-              <ul>
-                <li>
-                  Hello world. &rarr; <b>MyName</b> says "Hello world."
-                </li>
-                <li>
-                  <b>{"/nick "}</b>
-                  {"My New Name → "}
-                  <i>{"Changes your nickname to My New Name"}</i>
-                </li>
-                <li>
-                  <b>/me</b> looks at the sky. &rarr;{" "}
-                  <i>
-                    <b>MyName</b> looks at the sky.
-                  </i>
-                </li>
-                <li>
-                  <b>/describe</b> The sun sets. &rarr; <i>The sun sets.</i>
-                </li>
-              </ul>
-            </details>
-          </section>
+          <section id="help"></section>
         </>
       ) : (
         <div>
-          <p>
-            {
-              "To enter Twodays Crossing, you must first join and select a workspace."
-            }
-          </p>
-          <p>
-            {
-              "If you don't know any yet, find a friend who can give you an invitation code."
-            }
-          </p>
+          <p>Shouldn't happen here.</p>
         </div>
       )}
-    </div>
-  );
-}
-
-function PastMessages() {
-  const [currentAuthor] = useCurrentAuthor();
-  const pastDocs = useDocuments({
-    contentIsEmpty: true,
-    pathPrefix: "/twodays-v1.0/",
-  });
-  const livingDocs = useDocuments({
-    contentIsEmpty: false,
-    pathPrefix: "/twodays-v1.0/",
-  });
-
-  const getPastMessage = () => {
-    const pastOtherAuthorCount = new Set(
-      pastDocs
-        .map((doc) => doc.author)
-        .filter((author) => author !== currentAuthor?.address)
-    ).size;
-
-    if (pastOtherAuthorCount > 10) {
-      return "It seems like many people met here once, whether by chance or trade.";
-    }
-
-    if (pastOtherAuthorCount > 5) {
-      return "You notice the signs of a life that must have passed through here: wagon tracks; a jumble of footprints, the discarded remains of a meal.";
-    }
-
-    if (pastOtherAuthorCount > 2) {
-      return "Looking around, you see hints of past life: objects have been moved, the still-warm embers of an extinguished camp-fire.";
-    }
-
-    if (pastOtherAuthorCount > 0 && pastOtherAuthorCount < 2) {
-      return "Despite the silence, you get the feeling you're not alone.";
-    }
-
-    return "Eerily, the place seems untouched since you were last here.";
-  };
-
-  const getLivingMessage = () => {
-    const livingOtherAuthorCount = new Set(
-      livingDocs
-        .map((doc) => doc.author)
-        .filter((author) => author !== currentAuthor?.address)
-    ).size;
-
-    if (livingOtherAuthorCount > 10) {
-      return "You cast a glance at the body of tents set up at the side of the path, and the shadows of life that play against their sides.";
-    }
-
-    if (livingOtherAuthorCount > 5) {
-      return "You hear the soft chatter of others as you approach the crossing.";
-    }
-
-    if (livingOtherAuthorCount > 1) {
-      return "Someone thought to make a small fire here, which you gather around in turn.";
-    }
-
-    if (livingOtherAuthorCount > 0 && livingOtherAuthorCount < 2) {
-      return "Although you feel relief at seeing someone else here, you treat your unlikely companion with a degree of wariness.";
-    }
-
-    return "Although it doesn't make sense, you feel as though you're the first living soul to set foot here.";
-  };
-
-  return (
-    <div id={"preamble"}>
-      <em>{livingDocs.length > 0 ? getLivingMessage() : getPastMessage()}</em>
-      <hr />
+      <footer>Powered by Earthstar!</footer>
     </div>
   );
 }
@@ -162,8 +56,8 @@ function MessageList() {
   const messagesRef = React.useRef<HTMLDivElement | null>(null);
 
   const docs = useDocuments({
-    pathPrefix: "/twodays-v1.0/",
-    contentIsEmpty: false,
+    pathStartsWith: "/twodays-v1.0/",
+    contentLengthGt: 0,
   }).filter((doc) => !doc.path.endsWith("characterName.txt"));
 
   // sort oldest first
@@ -180,7 +74,6 @@ function MessageList() {
 
   return (
     <>
-      <PastMessages />
       <div ref={messagesRef} id={"author-messages"}>
         {docs.map((doc) => (
           <Message key={doc.path} doc={doc} />
@@ -275,6 +168,56 @@ function Message({ doc }: { doc: Document }) {
   );
 }
 
+const fireplaceGraphics = [Fireplace0, Fireplace1, Fireplace2, Fireplace3];
+
+function Fireplace() {
+  const numberOfLogs = useDocuments({
+    pathStartsWith: `/fireplace/`,
+    pathEndsWith: `.log`,
+  }).length;
+
+  console.log(numberOfLogs);
+
+  const hm = useDocuments({
+    pathStartsWith: `/fireplace/`,
+    pathEndsWith: `.log`,
+  });
+
+  console.log(hm);
+
+  return (
+    <img id="fireplace" src={fireplaceGraphics[numberOfLogs] || Fireplace3} />
+  );
+}
+
+function ThrowLogOnFireButton() {
+  const [currentAuthor] = useCurrentAuthor();
+
+  const [document, setDocument] = useDocument(
+    `/fireplace/~${currentAuthor?.address}/!log.log`
+  );
+
+  const hasActiveLog = document ? document.content !== "" : false;
+
+  return (
+    <button
+      id="log-button"
+      disabled={currentAuthor === null || hasActiveLog}
+      onClick={() => {
+        const now = Date.now() * 1000;
+
+        setDocument("log", now + 1000 * 100000);
+      }}
+    >
+      {currentAuthor === null
+        ? "Anonymous users cannot throw logs on fires"
+        : hasActiveLog
+        ? "The log you threw on is still burning."
+        : "Throw log on fire"}
+    </button>
+  );
+}
+
 function MessagePoster() {
   const [messageValue, setMessageValue] = React.useState("");
   const [currentAuthor] = useCurrentAuthor();
@@ -288,7 +231,7 @@ function MessagePoster() {
   );
 
   if (!currentAuthor) {
-    return <div>{"You are a ghost... you cannot speak! Sign in."}</div>;
+    return null;
   }
 
   const isAction = messageValue.startsWith("/me ");
@@ -319,11 +262,227 @@ function MessagePoster() {
       }}
     >
       <input
-        placeholder="Speak out at the crossing!"
+        placeholder="Something festive"
         value={messageValue}
         onChange={(e) => setMessageValue(e.target.value)}
       />
-      <button type={"submit"}>{isAction ? "Do it" : "Speak"}</button>
+      <button type={"submit"}>{isAction ? "Do it" : "Say"}</button>
     </form>
+  );
+}
+
+function IdentityPanel() {
+  const [currentAuthor, setCurrentAuthor] = useCurrentAuthor();
+
+  const [shortname, setShortname] = React.useState("");
+  const [displayName, setDisplayName] = React.useState("");
+
+  const [authorAddress, setAuthorAddress] = React.useState("");
+  const [secret, setSecret] = React.useState("");
+
+  const storage = useStorage();
+
+  if (currentAuthor) {
+    return (
+      <details key="signed-in">
+        <summary>
+          👤 Signed in as <AuthorLabel address={currentAuthor.address} />
+        </summary>
+        <div>
+          <dl>
+            <dt>Address</dt>
+            <dd>{currentAuthor.address}</dd>
+            <dt>Secret (highlight to see)</dt>
+            <dd className="highlight-secret">{currentAuthor.secret}</dd>
+          </dl>
+          <button onClick={() => setCurrentAuthor(null)}>Sign out</button>
+        </div>
+      </details>
+    );
+  }
+
+  return (
+    <details key="signed-out">
+      <summary>✍️ Sign in to participate</summary>
+      <fieldset>
+        <legend>For new users</legend>
+        <label>
+          Shortname
+          <input
+            type="text"
+            placeholder="4 lowercase letters / numbers, permanent"
+            value={shortname}
+            onChange={(e) => {
+              if (e.target.value.length <= 4) {
+                setShortname(e.target.value);
+              }
+            }}
+          />
+        </label>
+        <label>
+          Display name
+          <input
+            value={displayName}
+            onChange={(e) => setDisplayName(e.target.value)}
+            type="text"
+            placeholder="However long you want, change whenever"
+          />
+        </label>
+        <button
+          onClick={() => {
+            const result = generateAuthorKeypair(shortname);
+
+            if (isErr(result)) {
+              alert(result);
+              return;
+            }
+
+            setCurrentAuthor(result);
+
+            storage?.set(result, {
+              path: `/twodays-v1.0/~${result.address}/characterName.txt`,
+              content: displayName,
+              format: "es.4",
+            });
+
+            setShortname("");
+            setDisplayName("");
+            setAuthorAddress("");
+            setSecret("");
+          }}
+        >
+          Generate new identity
+        </button>
+      </fieldset>
+      <hr />
+      <fieldset>
+        <legend>For existing users</legend>
+        <label>
+          Address
+          <input
+            value={authorAddress}
+            onChange={(e) => setAuthorAddress(e.target.value)}
+            type="text"
+            placeholder="@name.xxxxxx"
+          />
+        </label>
+        <label>
+          Secret
+          <input
+            onChange={(e) => setSecret(e.target.value)}
+            type="password"
+            value={secret}
+          />
+        </label>
+        <button
+          onClick={() => {
+            const keypair = {
+              address: authorAddress,
+              secret: secret,
+            };
+
+            const result = checkAuthorKeypairIsValid(keypair);
+
+            if (isErr(result)) {
+              alert(result);
+              return;
+            }
+
+            setCurrentAuthor(keypair);
+
+            setShortname("");
+            setDisplayName("");
+            setAuthorAddress("");
+            setSecret("");
+          }}
+        >
+          Sign in
+        </button>
+      </fieldset>
+    </details>
+  );
+}
+
+function ConnectionStatus() {
+  const [pubs] = useWorkspacePubs();
+  const [isLive, setIsLive] = useIsLive();
+
+  return (
+    <div id="connection-status">
+      <details>
+        <summary>
+          {isLive ? (
+            <span>🌍 {`Connected to ${pubs.length} pockets`}</span>
+          ) : (
+            <span>🏝 Working offline</span>
+          )}
+        </summary>
+        {isLive ? (
+          <div>
+            Your own in-browser pocket is syncing with the following cloud
+            pockets:
+            <ul>
+              {pubs.map((url) => (
+                <li key={url}>{url}</li>
+              ))}
+            </ul>
+          </div>
+        ) : (
+          <div>
+            Your in-browser pocket is not being synced with any other pockets.
+          </div>
+        )}
+      </details>
+      <label>
+        <input
+          type="checkbox"
+          checked={isLive}
+          onClick={(e) => {
+            e.stopPropagation();
+            setIsLive(!isLive);
+          }}
+        />
+        Online
+      </label>
+    </div>
+  );
+}
+
+function Commands() {
+  const [currentAuthor] = useCurrentAuthor();
+
+  if (!currentAuthor) {
+    return null;
+  }
+
+  return (
+    <details>
+      <summary>⌨️ Commands</summary>
+      <dl>
+        <dt>Season's greetings!.</dt>
+        <dd>
+          <b>MyName</b> says "Season's greetings"
+        </dd>
+        <dt>
+          <b>{"/nick "}</b>
+          My New Name
+        </dt>
+        <dd>{"Changes your nickname to My New Name"}</dd>
+
+        <dt>
+          <b>/me</b> sips something warming
+        </dt>
+        <dd>
+          <b>MyName</b> sips something warming.
+        </dd>
+
+        <dt>
+          <b>/describe</b> Jingling commences!
+        </dt>
+        <dd>
+          <i>Jingling commences!</i>
+        </dd>
+      </dl>
+    </details>
   );
 }

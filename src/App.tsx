@@ -1,14 +1,8 @@
 import React from "react";
-import "./App.css";
+
+import { StorageLocalStorage, StorageToAsync, ValidatorEs4 } from "earthstar";
 import {
   EarthstarPeer,
-  Earthbar,
-  useCurrentAuthor,
-  useCurrentWorkspace,
-  WorkspaceTab,
-  AuthorTab,
-  Spacer,
-  useDocument,
   useLocalStorageEarthstarSettings,
   LocalStorageSettingsWriter,
 } from "react-earthstar";
@@ -16,17 +10,28 @@ import "react-earthstar/styles/layout.css";
 import "react-earthstar/styles/junior.css";
 import TwoDays from "./TwoDays";
 
+const HOLIDAY_SPACE = "+plaza.prm27p8eg65c";
+
 function App() {
-  const initValues = useLocalStorageEarthstarSettings("twodays");
+  const { initCurrentAuthor, initIsLive } =
+    useLocalStorageEarthstarSettings("twodays");
+
+  const storage = new StorageLocalStorage([ValidatorEs4], HOLIDAY_SPACE);
+  const asyncStorage = new StorageToAsync(storage);
 
   return (
-    <EarthstarPeer {...initValues}>
-      <Earthbar>
-        <WorkspaceTab />
-        <Spacer />
-        <AuthorTab />
-        <DisplayName />
-      </Earthbar>
+    <EarthstarPeer
+      initCurrentAuthor={initCurrentAuthor}
+      initIsLive={initIsLive}
+      initCurrentWorkspace={HOLIDAY_SPACE}
+      initPubs={{
+        [HOLIDAY_SPACE]: [
+          "https://earthstar-demo-pub-6b.fly.dev",
+          "https://earthstar-demo-pub-v6-a.glitch.me",
+        ],
+      }}
+      initWorkspaces={[asyncStorage]}
+    >
       <TwoDays />
       <LocalStorageSettingsWriter storageKey={"twodays"} />
     </EarthstarPeer>
@@ -34,20 +39,3 @@ function App() {
 }
 
 export default App;
-
-function DisplayName() {
-  const [currentWorkspace] = useCurrentWorkspace();
-  const [currentAuthor] = useCurrentAuthor();
-
-  const [displayNameDoc] = useDocument(
-    `/twodays-v1.0/~${currentAuthor?.address}/characterName.txt`
-  );
-
-  if (!currentWorkspace || !currentAuthor || !displayNameDoc?.content) {
-    return null;
-  }
-
-  return (
-    <div id={"earthbar-display-name"}>{`(${displayNameDoc.content})`}</div>
-  );
-}
