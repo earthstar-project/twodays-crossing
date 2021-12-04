@@ -169,6 +169,12 @@ function Message({ doc }: { doc: Document }) {
 }
 
 const fireplaceGraphics = [Fireplace0, Fireplace1, Fireplace2, Fireplace3];
+const fireplaceDescriptions = [
+  "An unlit fireplace. Cold.",
+  "A small fire flickers in a fireplace. Cosy",
+  "A robust fire warms a fireplace. Toasty.",
+  "A roaring fire fills a fireplace. Hot!",
+];
 
 function Fireplace() {
   const numberOfLogs = useDocuments({
@@ -176,17 +182,12 @@ function Fireplace() {
     pathEndsWith: `.log`,
   }).length;
 
-  console.log(numberOfLogs);
-
-  const hm = useDocuments({
-    pathStartsWith: `/fireplace/`,
-    pathEndsWith: `.log`,
-  });
-
-  console.log(hm);
-
   return (
-    <img id="fireplace" src={fireplaceGraphics[numberOfLogs] || Fireplace3} />
+    <img
+      id="fireplace"
+      alt={fireplaceDescriptions[numberOfLogs] || fireplaceDescriptions[3]}
+      src={fireplaceGraphics[numberOfLogs] || Fireplace3}
+    />
   );
 }
 
