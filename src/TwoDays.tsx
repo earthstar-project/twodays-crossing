@@ -135,8 +135,6 @@ function ActionisedMessage({ messageDoc }: { messageDoc: Document }) {
 
   const identicon = getIdenticon(messageDoc.author + currentAuthor?.secret);
 
-  console.log(identicon);
-
   const identiconSvg = (
     <img
       className="identicon"
@@ -275,7 +273,7 @@ function ThrowLogOnFireButton() {
       onClick={() => {
         const now = Date.now() * 1000;
 
-        setDocument("log", now + 1000 * 3000);
+        setDocument("log", now + 1000 * 1000 * 60 * 60);
       }}
     >
       {currentAuthor === null ? (
@@ -309,7 +307,7 @@ function LogTimeRemaining({ doc }: { doc: Document }) {
     };
   }, [doc]);
 
-  return <span>{`Your log will burn for another ${timeRemaining}`}</span>;
+  return <span>{`Your log will burn for ${timeRemaining}`}</span>;
 }
 
 function MessagePoster() {
@@ -376,11 +374,24 @@ function IdentityPanel() {
 
   const storage = useStorage();
 
+  const identicon = getIdenticon(
+    "" + currentAuthor?.address + currentAuthor?.secret
+  );
+
+  const identiconSvg = (
+    <img
+      className="identicon"
+      src={`data:image/svg+xml;base64,${identicon}`}
+      alt={`An identicon represent the address ${currentAuthor?.address}`}
+    />
+  );
+
   if (currentAuthor) {
     return (
       <details key="signed-in">
         <summary>
           👤 Signed in as <AuthorLabel address={currentAuthor.address} />
+          {identiconSvg}
         </summary>
         <div>
           <dl>
