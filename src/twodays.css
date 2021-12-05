@@ -131,9 +131,7 @@ header aside {
 
 .describe-action {
   text-align: center;
-  color: var(--main-colour);
-  transition-property: var(--transition-props);
-  transition-duration: var(--transition-time);
+  color: var(--other-colour);
 }
 
 .author-a {
