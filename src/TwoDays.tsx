@@ -24,6 +24,24 @@ import Fireplace1 from "./logs/f1.gif";
 import Fireplace2 from "./logs/f2.gif";
 import Fireplace3 from "./logs/f3.gif";
 import { formatDistanceToNowStrict } from "date-fns";
+import Identicon from "identicon.js";
+
+var identicons: Record<string, string> = {};
+
+function getIdenticon(address: string) {
+  const result = identicons[address];
+
+  if (!result) {
+    const newResult = new Identicon(address, {
+      format: "svg",
+      size: 10,
+      margin: 0,
+    }).toString();
+    return newResult;
+  }
+
+  return result;
+}
 
 export default function TwoDays() {
   const [currentWorkspace] = useCurrentWorkspace();
@@ -86,6 +104,8 @@ function MessageList() {
 }
 
 function ActionisedMessage({ messageDoc }: { messageDoc: Document }) {
+  const [currentAuthor] = useCurrentAuthor();
+
   const className = detChoice(messageDoc.author, [
     "author-a",
     "author-b",
@@ -113,11 +133,24 @@ function ActionisedMessage({ messageDoc }: { messageDoc: Document }) {
     </span>
   );
 
+  const identicon = getIdenticon(messageDoc.author + currentAuthor?.secret);
+
+  console.log(identicon);
+
+  const identiconSvg = (
+    <img
+      className="identicon"
+      src={`data:image/svg+xml;base64,${identicon}`}
+      alt={`An identicon represent the address ${messageDoc.author}`}
+    />
+  );
+
   if (isAuthorAction) {
     return (
       <div className="author-action">
         <em>
           {name}
+          {identiconSvg}
           {messageDoc.content.replace("/me", "")}
         </em>
       </div>
@@ -136,6 +169,7 @@ function ActionisedMessage({ messageDoc }: { messageDoc: Document }) {
     return (
       <div className="author-speech">
         {name}
+        {identiconSvg}
         {" says “"}
         {messageDoc.content}
         {"”"}
