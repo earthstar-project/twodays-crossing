@@ -8,6 +8,7 @@ import {
   useIsLive,
   useStorage,
   useWorkspacePubs,
+  useSubscribeToStorages,
 } from "react-earthstar";
 import {
   Document,
@@ -15,12 +16,14 @@ import {
   generateAuthorKeypair,
   isErr,
   checkAuthorKeypairIsValid,
+  WriteEvent,
 } from "earthstar";
 import "./twodays.css";
 import Fireplace0 from "./logs/f0.gif";
 import Fireplace1 from "./logs/f1.gif";
 import Fireplace2 from "./logs/f2.gif";
 import Fireplace3 from "./logs/f3.gif";
+import { formatDistanceToNowStrict } from "date-fns";
 
 export default function TwoDays() {
   const [currentWorkspace] = useCurrentWorkspace();
@@ -35,9 +38,8 @@ export default function TwoDays() {
             <ThrowLogOnFireButton />
             <MessageList />
             <MessagePoster />
-
-            <IdentityPanel />
             <Commands />
+            <IdentityPanel />
             <ConnectionStatus />
           </section>
           <section id="help"></section>
@@ -177,10 +179,35 @@ const fireplaceDescriptions = [
 ];
 
 function Fireplace() {
-  const numberOfLogs = useDocuments({
+  const logDocs = useDocuments({
     pathStartsWith: `/fireplace/`,
     pathEndsWith: `.log`,
-  }).length;
+  });
+
+  const [followedDocs, setFollowedDocs] = React.useState(logDocs);
+
+  const onWrite = React.useCallback((event: WriteEvent) => {
+    setFollowedDocs((prevDocs) => {
+      return prevDocs.map((doc) => {
+        if (doc.path === event.document.path) {
+          return event.document;
+        }
+
+        return doc;
+      });
+    });
+  }, []);
+
+  useSubscribeToStorages({
+    paths: logDocs.map((doc) => doc.path),
+    onWrite,
+  });
+
+  React.useEffect(() => setFollowedDocs(logDocs), [logDocs]);
+
+  const numberOfLogs = followedDocs.filter(
+    (doc) => doc.content.length > 0
+  ).length;
 
   return (
     <img
@@ -200,6 +227,13 @@ function ThrowLogOnFireButton() {
 
   const hasActiveLog = document ? document.content !== "" : false;
 
+  const memoDocs = React.useMemo(
+    () => (document ? [document] : []),
+    [document]
+  );
+
+  useDiscardAfterExpiry(memoDocs);
+
   return (
     <button
       id="log-button"
@@ -207,16 +241,41 @@ function ThrowLogOnFireButton() {
       onClick={() => {
         const now = Date.now() * 1000;
 
-        setDocument("log", now + 1000 * 100000);
+        setDocument("log", now + 1000 * 3000);
       }}
     >
-      {currentAuthor === null
-        ? "Anonymous users cannot throw logs on fires"
-        : hasActiveLog
-        ? "The log you threw on is still burning."
-        : "Throw log on fire"}
+      {currentAuthor === null ? (
+        "Anonymous users cannot throw logs on fires"
+      ) : hasActiveLog ? (
+        <LogTimeRemaining doc={document as Document} />
+      ) : (
+        "Throw log on fire"
+      )}
     </button>
   );
+}
+
+function LogTimeRemaining({ doc }: { doc: Document }) {
+  const distance =
+    doc && doc.deleteAfter
+      ? formatDistanceToNowStrict(doc.deleteAfter / 1000)
+      : "";
+  const [timeRemaining, setTimeRemaining] = React.useState(distance);
+
+  React.useEffect(() => {
+    const interval = setInterval(() => {
+      if (doc && doc.deleteAfter) {
+        const distance = formatDistanceToNowStrict(doc.deleteAfter / 1000);
+        setTimeRemaining(distance);
+      }
+    }, 1000);
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, [doc]);
+
+  return <span>{`Your log will burn for another ${timeRemaining}`}</span>;
 }
 
 function MessagePoster() {
@@ -263,7 +322,7 @@ function MessagePoster() {
       }}
     >
       <input
-        placeholder="Something festive"
+        placeholder="Messages disappear after 48 hours... like tears in rain..."
         value={messageValue}
         onChange={(e) => setMessageValue(e.target.value)}
       />
@@ -407,6 +466,7 @@ function IdentityPanel() {
 function ConnectionStatus() {
   const [pubs] = useWorkspacePubs();
   const [isLive, setIsLive] = useIsLive();
+  const [currentWorkspace] = useCurrentWorkspace();
 
   return (
     <div id="connection-status">
@@ -420,8 +480,8 @@ function ConnectionStatus() {
         </summary>
         {isLive ? (
           <div>
-            Your own in-browser pocket is syncing with the following cloud
-            pockets:
+            Your own in-browser pocket (keyed to {` ${currentWorkspace}`}) is
+            syncing with the following cloud pockets:
             <ul>
               {pubs.map((url) => (
                 <li key={url}>{url}</li>
@@ -430,7 +490,8 @@ function ConnectionStatus() {
           </div>
         ) : (
           <div>
-            Your in-browser pocket is not being synced with any other pockets.
+            Your in-browser pocket (keyed to {` ${currentWorkspace}`}) is not
+            being synced with any other pockets.
           </div>
         )}
       </details>
@@ -486,4 +547,41 @@ function Commands() {
       </dl>
     </details>
   );
+}
+
+function useDiscardAfterExpiry(docs: Document[]) {
+  const storage = useStorage();
+
+  const [, forceRender] = React.useState(true);
+
+  React.useEffect(() => {
+    const clears = docs.map((doc) => {
+      const now = Date.now();
+
+      if (doc.deleteAfter && doc.deleteAfter / 1000 > now) {
+        const msFromNow = doc.deleteAfter / 1000 - Date.now();
+
+        const timeout = setTimeout(() => {
+          storage?.discardExpiredDocuments().then(() => {
+            storage.onWrite.send({
+              kind: "DOCUMENT_WRITE",
+              isLatest: true,
+              isLocal: true,
+              document: { ...doc, content: "" },
+              fromSessionId: storage.sessionId,
+            });
+            forceRender((prev) => !prev);
+          });
+        }, msFromNow);
+
+        return () => clearTimeout(timeout);
+      }
+
+      return () => {};
+    });
+
+    return () => {
+      clears.forEach((clear) => clear());
+    };
+  }, [storage, docs]);
 }
