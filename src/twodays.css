@@ -87,11 +87,9 @@ header aside {
   overflow: hidden;
   max-width: 30em;
   margin: auto;
-  transition-property: var(--transition-props);
-  transition-duration: var(--transition-time);
   border: 2px outset gray;
   padding: 0.5rem;
-  background: color(srgb 0.778 0.778 0.778);
+  background: lightgray;
 }
 
 #help {
@@ -118,10 +116,8 @@ header aside {
   max-height: 46ex;
   overflow: auto;
   resize: vertical;
-  transition-property: var(--transition-props);
-  transition-duration: var(--transition-time);
   color: black;
-  background: color(srgb 0.913 0.913 0.913);
+  background: #f2f2f2;
   border: 2px inset gray;
   padding: 0.25rem;
   margin: 0.5rem 0;
@@ -230,8 +226,8 @@ details div ul {
 }
 
 .highlight-secret {
-  color: color(srgb 0.373 0.373 0.373);
-  background: color(srgb 0.373 0.373 0.373);
+  color: gray;
+  background: gray;
 }
 
 .highlight-secret::selection {
@@ -263,7 +259,7 @@ button:active {
 fieldset label {
   display: block;
   margin-bottom: 0.5rem;
-  color: color(srgb 0.278 0.278 0.278);
+  color: gray;
 }
 
 fieldset label input {
