@@ -451,11 +451,13 @@ function IdentityPanel() {
 
             setCurrentAuthor(result);
 
-            storage?.set(result, {
-              path: `/twodays-v1.0/~${result.address}/characterName.txt`,
-              content: displayName,
-              format: "es.4",
-            });
+            if (displayName.length > 0) {
+              storage?.set(result, {
+                path: `/twodays-v1.0/~${result.address}/characterName.txt`,
+                content: displayName,
+                format: "es.4",
+              });
+            }
 
             setShortname("");
             setDisplayName("");
