@@ -248,7 +248,8 @@ dd {
 }
 
 button {
-  font-family: "Comic Sans MS";
+  font-family: "Comic Sans", "Comic Sans MS", "Chalkboard",
+    "ChalkboardSE-Regular", sans-serif;
   display: block;
   font-size: 1em;
   border: 2px outset grey;
@@ -278,6 +279,10 @@ footer {
   text-shadow: 2px 2px 0 black;
   text-align: center;
   font-size: 2em;
+}
+
+footer a {
+  color: yellow;
 }
 
 .identicon {

@@ -60,14 +60,20 @@ export default function TwoDays() {
             <IdentityPanel />
             <ConnectionStatus />
           </section>
-          <section id="help"></section>
         </>
       ) : (
         <div>
           <p>Shouldn't happen here.</p>
         </div>
       )}
-      <footer>Powered by Earthstar!</footer>
+      <footer>
+        Powered by <a href="https://earthstar-project.org">Earthstar</a>!{" "}
+        <div>
+          <a href="https://github.com/earthstar-project/twodays-crossing/tree/holiday-fire">
+            Source code
+          </a>
+        </div>
+      </footer>
     </div>
   );
 }
@@ -216,6 +222,7 @@ function Fireplace() {
     pathEndsWith: `.log`,
   });
 
+  // I had to do some weird stuff here to get React to notice documents being deleted. Not an issue in future versions of react-earthstar.
   const [followedDocs, setFollowedDocs] = React.useState(logDocs);
 
   const onWrite = React.useCallback((event: WriteEvent) => {
