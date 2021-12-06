@@ -273,6 +273,10 @@ function ThrowLogOnFireButton() {
 
   useDiscardAfterExpiry(memoDocs);
 
+  const path = `/twodays-v1.0/~${currentAuthor?.address}/${Date.now()}.txt!`;
+
+  const [, setMessageDoc] = useDocument(path);
+
   return (
     <button
       id="log-button"
@@ -281,6 +285,10 @@ function ThrowLogOnFireButton() {
         const now = Date.now() * 1000;
 
         setDocument("log", now + 1000 * 1000 * 60 * 60);
+        setMessageDoc(
+          "/me throws another log on the fire",
+          Date.now() * 1000 + 2 * 24 * 60 * 60 * 1000 * 1000
+        );
       }}
     >
       {currentAuthor === null ? (
@@ -527,7 +535,7 @@ function ConnectionStatus() {
       <details>
         <summary>
           {isLive ? (
-            <span>🌍 {`Connected to ${pubs.length} pockets`}</span>
+            <span>🌍 {`Connected to ${pubs.length} cloud pockets`}</span>
           ) : (
             <span>🏝 Working offline</span>
           )}
